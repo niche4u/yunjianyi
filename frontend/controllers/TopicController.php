@@ -7,11 +7,14 @@ use common\models\Node;
 use common\models\Search;
 use common\models\Topic;
 use common\models\TopicContent;
+use common\models\User;
 use Yii;
 use yii\data\Pagination;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
+use yii\helpers\Markdown;
 
 /**
  * Site controller
@@ -125,6 +128,26 @@ class TopicController extends Controller
                 'replyList' => $replyList,
                 'pagination'=> $pagination
             ]);
+        }
+    }
+
+    /**
+     * Displays a single Topic Preview.
+     * @param integer $id
+     * @return mixed
+     * @throws BadRequestHttpException
+     * @throws NotFoundHttpException
+     * @throws \Exception
+     */
+    public function actionPreview()
+    {
+        $content = Yii::$app->request->post('content');
+        if(Yii::$app->user->isGuest || $content == null) {
+            return false;
+        }
+        else {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return Markdown::process($content, 'gfm');
         }
     }
 
