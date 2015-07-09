@@ -14,7 +14,7 @@ V2SEX is A high performance open-source forum software written in Yii2.
 
 ## Install
 ```
-git clone http://github.com/v2sex/v2sex.git v2sex
+git clone http://github.com/chonder/v2sex.git v2sex
 cd v2sex
 php init
 ```
