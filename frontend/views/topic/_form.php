@@ -27,7 +27,7 @@ use kartik\select2\Select2;
                 <?= $form->field($topicContent, 'content')->textarea(['rows' => 16]) ?>
                 <div class="form-group">
                     <?= Html::submitButton($model->isNewRecord ? '发布主题' : '更新主题', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-                    <?= Html::button('预览主题', ['class' => 'btn btn-primary preview']) ?>
+                    <?= Html::button('预览正文', ['class' => 'btn btn-primary preview']) ?>
                 </div>
                 <?php ActiveForm::end(); ?>
             </div>

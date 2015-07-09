@@ -29,9 +29,6 @@ $agent = \common\components\Helper::agent();
                             <?php endif?>
                             <h1>
                             <?= $model->username?>
-                            <?php if(!empty($model->homepage)):?>
-                            <small><a href="<?= $model->homepage?>" target="_blank" rel="nofollow"><?= $model->homepage?></a></small>
-                            <?php endif?>
                             </h1>
                             <small><?= Yii::$app->name?> 第 <?= $model->id?> 号会员，加入为 <?= date('Y-m-d H:i:s', $model->created_at)?>
                                 <?php if(!empty($model->area)):?>，所在地 <?= $model->area?><?php endif?>
@@ -45,6 +42,9 @@ $agent = \common\components\Helper::agent();
             <?php if(!empty($model->desc)):?>
             <article class="item">
                 <div class="mt10"></div>
+                <?php if(!empty($model->homepage)):?>
+                    <p><a href="<?= $model->homepage?>" target="_blank" rel="nofollow"><?= $model->homepage?></a></p>
+                <?php endif?>
                 <p><?= nl2br($model->desc)?></p>
             </article>
             <?php endif?>
@@ -88,7 +88,7 @@ $agent = \common\components\Helper::agent();
                         <div class="member-reply-author">
                             <aside><small>回复了 <a href="/member/<?= $topicInfo['username']?>"><?= $topicInfo['username']?></a> 创建的主题 <a href="/topic/<?= $c->topic_id?>"> <?= $topicInfo['title']?></a> &nbsp;&nbsp;<?= Yii::$app->formatter->asRelativeTime($c->created)?></small></aside>
                         </div>
-                        <div class="mt10"><p><?= Helper::autolink($c->content)?></p></div>
+                        <div class="mt10"><p><?= Helper::autolink(nl2br($c->content))?></p></div>
                         <div class="clearfix"></div>
                     </div>
                 </article>

@@ -15,7 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <article class="item">
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                     <tbody><tr>
-                        <td width="80" valign="top" align="left"><img src="<?= $node->logo80?>" class="img-rounded"></td>
+                        <?php if($agent == 'is_iphone' || $agent == 'is_android'):?>
+                            <td width="48" valign="top" align="left"><img src="<?= $node->logo80?>" class="img-rounded"></td>
+                        <?php else:?>
+                            <td width="80" valign="top" align="left"><img src="<?= $node->logo80?>" class="img-rounded"></td>
+                        <?php endif?>
                         <td width="10"></td>
                         <td width="auto" valign="right">
                             <div class="pull-right text-right">

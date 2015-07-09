@@ -29,11 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($topicContent, 'content')->textarea(['rows' => 16])->label('附言正文') ?>
                         <div class="form-group">
                             <?= Html::submitButton('提交', ['class' => 'btn btn-success']) ?>
+                            <?= Html::button('预览正文', ['class' => 'btn btn-primary preview']) ?>
                         </div>
                         <?php ActiveForm::end(); ?>
                     </div>
                 </div>
             </article>
+            <div class="row" id="preview"></div>
         </section>
     </div>
 
@@ -56,3 +58,20 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+
+
+<?php
+$sendJs = "\n
+  $('.preview').click(function(){
+     $('#topiccontent-content').val();
+     $.ajax({
+      url:'/topic/preview',
+      type: 'POST',
+      data: {content:$('#topiccontent-content').val()},
+      success: function(json) {
+          $('#preview').html('<div class=\"col-lg-12\"><article class=\"header topic-body\">'+json+'</article></div>')
+        },
+    });
+  });";
+$this->registerJs($sendJs, \yii\web\View::POS_READY);
+?>

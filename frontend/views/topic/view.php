@@ -121,7 +121,7 @@ $agent = \common\components\Helper::agent();
                         </div>
                         </aside>
                     </div>
-                    <div class="mt3"><p><?= Helper::autolink($c->content)?></p></div>
+                    <div class="mt3"><p><?= Helper::autolink(nl2br($c->content))?></p></div>
                     <div class="clearfix"></div>
                 </div>
             </article>
