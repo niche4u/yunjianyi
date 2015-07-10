@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::button('预览广告', ['class' => 'btn btn-primary preview']) ?>
+        <?= Html::button('预览', ['class' => 'btn btn-primary preview']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
