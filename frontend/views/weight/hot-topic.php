@@ -1,6 +1,6 @@
 <?php $HotTopic = \common\models\Topic::HotTopic();?>
 <?php if(!empty($HotTopic)):?>
-<section class="mt20">
+<section>
     <div class="block-header">今日热门主题</div>
     <div class="mt5"></div>
     <?php foreach ($HotTopic as $topic):?>

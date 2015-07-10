@@ -6,7 +6,7 @@ $NodeAd = \common\models\NodeAd::NodeAd($node->id);
 
 ?>
 <?php if(!empty($NodeAd)):?>
-<section class="mt20">
+<section>
     <div class="block-content markdown-content">
         <?php foreach ($NodeAd as $ad):?>
         <?= Markdown::process($ad['content'], 'gfm')?>

@@ -1,4 +1,4 @@
-<section class="mt20">
+<section>
 
     <?php if(!empty($node->parent)):?>
     <div class="block-header">

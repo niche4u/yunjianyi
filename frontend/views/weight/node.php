@@ -1,4 +1,4 @@
-<section class="mt20">
+<section>
     <div class="block-header">我收藏的节点</div>
     <?php $follow = \common\models\Follow::findAll(['user_id' => Yii::$app->user->id, 'type' => 2]);?>
     <?php foreach ($follow as $f):?>

@@ -135,7 +135,7 @@ $agent = \common\components\Helper::agent();
         </section>
         <?php endif?>
 
-        <section class="mt20">
+        <section>
             <div class="block-header">
                 回复<a class="pull-right" href="#Top">回到顶部</a>
             </div>

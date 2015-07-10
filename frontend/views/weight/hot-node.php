@@ -1,6 +1,6 @@
 <?php $HotNode = \common\models\Node::HotNode();?>
 <?php if(!empty($HotNode)):?>
-    <section class="mt20">
+    <section>
         <div class="block-header">最热节点</div>
         <article class="node block-content">
             <?php $HotNode = \common\models\Node::HotNode();?>

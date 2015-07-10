@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="col-md-3 sidebar">
         <?= $this->render('@frontend/views/weight/user')?>
-        <section class="mt20">
+        <section>
             <div class="block-header">
                 <small>提示</small>
             </div>

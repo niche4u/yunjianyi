@@ -50,7 +50,7 @@ $agent = \common\components\Helper::agent();
             <?php endif?>
         </section>
 
-        <section class="mt20">
+        <section>
             <div class="block-header"><?= $model->username?> 最近发布的主题</div>
             <?php foreach($model->topicList as $t):?>
                 <?php $nodeInfo = \common\models\Node::Info($t->node_id);?>
@@ -79,7 +79,7 @@ $agent = \common\components\Helper::agent();
             <div class="block-footer"><a href="/member/<?= $model->username?>/topic"><?= $model->username?> 发布的更多主题</a></div>
         </section>
 
-        <section class="mt20">
+        <section>
             <div class="block-header"><?= $model->username?>最近的回复</div>
             <?php foreach($model->replyList as $c):?>
                 <?php $topicInfo = \common\models\Topic::Info($c->topic_id);?>

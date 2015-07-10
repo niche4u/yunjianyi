@@ -1,4 +1,4 @@
-<section class="mt20">
+<section>
     <div class="block-header">统计
     </div>
     <div class="block-content">

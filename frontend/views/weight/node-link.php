@@ -6,7 +6,7 @@ $NodeLink = \common\models\NodeLink::NodeLink($node->id);
 
 ?>
 <?php if(!empty($NodeLink)):?>
-<section class="mt20">
+<section>
     <div class="block-content markdown-content">
         <?php foreach ($NodeLink as $link):?>
         <?= Markdown::process($link['content'], 'gfm')?>
