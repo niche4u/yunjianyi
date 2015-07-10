@@ -61,7 +61,7 @@ $agent = \common\components\Helper::agent();
             <?php if(!empty($model->content->content)):?>
             <article class="topic-body markdown-content">
                 <?= \frontend\widgets\Alert::widget() ?>
-                <?php echo Helper::autolink(Markdown::process($model->content->content, 'gfm'))?>
+                <?php echo Helper::autolink(nl2br(Markdown::process($model->content->content, 'gfm')))?>
             </article>
             <?php endif?>
 
@@ -70,7 +70,7 @@ $agent = \common\components\Helper::agent();
                 <?php foreach($model->append as $a):?>
                 <div class="mt10 ml15"><small>第 <?= $k?> 条附言 · <?= Yii::$app->formatter->asRelativeTime($a->created)?></small></div>
                 <article class="topic-body markdown-content">
-                    <?= Helper::autolink(Markdown::process($a->content, 'gfm'))?>
+                    <?= Helper::autolink(nl2br(Markdown::process($a->content, 'gfm')))?>
                 </article>
                     <?php $k++?>
                 <?php endforeach?>

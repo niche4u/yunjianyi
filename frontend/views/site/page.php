@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $model->title;
             <article class="<?= $model->route?>">
                 <div class="row">
                     <div class="col-lg-9 markdown-content">
-                        <?= Markdown::process($model->content, 'gfm')?>
+                        <?= nl2br(Markdown::process($model->content, 'gfm'))?>
                     </div>
                 </div>
             </article>
