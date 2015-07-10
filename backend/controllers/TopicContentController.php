@@ -70,7 +70,7 @@ class TopicContentController extends Controller
         $gridColumns[] = [
             'attribute'=>'content',
             'value'=>function ($searchModel, $key, $index, $widget) {
-                return Helper::truncate_utf8_string($searchModel->content, 100);
+                return Helper::truncateUtf8String($searchModel->content, 100);
             },
         ];
         $gridColumns[] = [

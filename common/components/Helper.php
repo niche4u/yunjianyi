@@ -5,7 +5,7 @@ namespace common\components;
 class Helper {
 
     /**自动转为超链接*/
-    public static function autolink($text)
+    public static function autoLink($text)
     {
         $at = '|@([a-zA-Z0-9]{2,15})\s|';
         $url = '|(href="(.*?)")|';
@@ -36,7 +36,24 @@ class Helper {
         return $text;
     }
 
-    public static function truncate_utf8_string($string, $length, $etc = '...')
+    // 回复内容处理，图片链接自动显示图片
+    public static function autoLinkReply($text)
+    {
+        $at = '|@([a-zA-Z0-9]{2,15})\s|';
+
+        //将评论中@提到的转为超链接
+        if(preg_match($at, $text))
+        {
+            $replace = '@<a href="/member/$1" target="_blank">$1</a>';
+            $text = preg_replace($at, $replace, $text);
+        }
+
+        $text = preg_replace('/(https?:\/\/\S+\.(?:jpg|jpeg|png|gif|bmp|JPG|JPEG|PNG|GIT|BMP))\s+/', '<img class="img-responsive" src="$1"', $text);
+
+        return $text;
+    }
+
+    public static function truncateUtf8String($string, $length, $etc = '...')
     {
         $result = '';
         $string = html_entity_decode(trim(strip_tags($string)), ENT_QUOTES, 'UTF-8');

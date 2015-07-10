@@ -94,7 +94,7 @@ class TopicController extends Controller
         if(!empty($model->node->bg_color)) $this->bg_color = $model->node->bg_color;
 
         $this->title = $model->title.' - '.Yii::$app->name;
-        $this->description = $model->node['name'].' - '.$model->user->username.' - '.Helper::truncate_utf8_string($model->content->content, 200);
+        $this->description = $model->node['name'].' - '.$model->user->username.' - '.Helper::truncateUtf8String($model->content->content, 200);
 
         $replyQuery = Reply::find()->where(['topic_id' => $model->id]);
         $pagination = new Pagination([

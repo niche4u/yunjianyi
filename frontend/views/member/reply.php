@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="member-reply-author">
                             <aside><small>回复了 <a href="/member/<?= $topicInfo['username']?>"><?= $topicInfo['username']?></a> 创建的主题 <a href="/topic/<?= $c->topic_id?>"> <?= $topicInfo['title']?></a> &nbsp;&nbsp;<?= Yii::$app->formatter->asRelativeTime($c->created)?></small></aside>
                         </div>
-                        <div class="mt10"><p><?= Helper::autolink(nl2br($c->content))?></p></div>
+                        <div class="mt10"><p><?= Helper::autoLinkReply(nl2br($c->content))?></p></div>
                         <div class="clearfix"></div>
                     </div>
                 </article>
