@@ -1,16 +1,16 @@
-backend/config/main-local.php 
-backend/config/params-local.php 
-backend/web/index-test.php 
-backend/web/index.php 
-console/config/main-local.php 
-console/config/params-local.php 
-frontend/config/main-local.php 
-frontend/config/params-local.php 
-frontend/web/index-test.php 
-frontend/web/index.php 
-common/config/main-local.php 
-common/config/params-local.php  
-yii
+/backend/config/main-local.php
+/backend/config/params-local.php
+/backend/web/index-test.php
+/backend/web/index.php
+/console/config/main-local.php
+/console/config/params-local.php
+/frontend/config/main-local.php
+/frontend/config/params-local.php
+/frontend/web/index-test.php
+/frontend/web/index.php
+/common/config/main-local.php
+/common/config/params-local.php
+/yii
 
 # yii console command
 #/yii

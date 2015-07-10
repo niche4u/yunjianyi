@@ -69,7 +69,7 @@ $sendJs = "\n
       type: 'POST',
       data: {content:$('#topiccontent-content').val()},
       success: function(json) {
-          $('#preview').html('<div class=\"col-lg-12\"><article class=\"header topic-body\">'+json+'</article></div>')
+          $('#preview').html('<div class=\"col-lg-12\"><article class=\"header topic-body markdown-content\">'+json+'</article></div>')
         },
     });
   });";

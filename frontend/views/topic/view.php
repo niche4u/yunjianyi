@@ -59,7 +59,7 @@ $agent = \common\components\Helper::agent();
             </div>
 
             <?php if(!empty($model->content->content)):?>
-            <article class="topic-body">
+            <article class="topic-body markdown-content">
                 <?= \frontend\widgets\Alert::widget() ?>
                 <?php echo Helper::autolink(Markdown::process($model->content->content, 'gfm'))?>
             </article>
@@ -69,7 +69,7 @@ $agent = \common\components\Helper::agent();
                 <?php $k = 1?>
                 <?php foreach($model->append as $a):?>
                 <div class="mt10 ml15"><small>第 <?= $k?> 条附言 · <?= Yii::$app->formatter->asRelativeTime($a->created)?></small></div>
-                <article class="topic-body">
+                <article class="topic-body markdown-content">
                     <?= Helper::autolink(Markdown::process($a->content, 'gfm'))?>
                 </article>
                     <?php $k++?>

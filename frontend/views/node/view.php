@@ -94,6 +94,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="col-md-3 sidebar hidden-xs hidden-sm">
         <?= $this->render('@frontend/views/weight/user')?>
+        <?= $this->render('@frontend/views/weight/node-link', ['node' => $node])?>
         <?= $this->render('@frontend/views/weight/related-node', ['node' => $node])?>
+        <?= $this->render('@frontend/views/weight/node-ad', ['node' => $node])?>
     </div>
 </div>

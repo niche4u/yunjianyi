@@ -60,6 +60,7 @@
         <div class="col-md-3 sidebar hidden-xs hidden-sm">
             <?= $this->render('@frontend/views/weight/user')?>
             <?= $this->render('@frontend/views/weight/hot-topic')?>
+            <?= $this->render('@frontend/views/weight/tab-ad')?>
             <?= $this->render('@frontend/views/weight/hot-node')?>
             <?= $this->render('@frontend/views/weight/stat')?>
         </div>
