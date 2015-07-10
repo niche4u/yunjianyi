@@ -167,7 +167,7 @@ class TopicContentController extends Controller
         }
         else {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return nl2br(Markdown::process($content, 'gfm'));
+            return Markdown::process($content, 'gfm');
         }
     }
 
