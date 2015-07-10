@@ -57,7 +57,7 @@
             </section>
         </div>
 
-        <div class="col-md-3 sidebar hidden-xs hidden-sm">
+        <div class="col-md-3 sidebar">
             <?= $this->render('@frontend/views/weight/user')?>
             <?= $this->render('@frontend/views/weight/hot-topic')?>
             <?= $this->render('@frontend/views/weight/tab-ad')?>

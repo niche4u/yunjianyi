@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]);?>
     </div>
 
-    <div class="col-md-3 sidebar hidden-xs hidden-sm">
+    <div class="col-md-3 sidebar">
         <?= $this->render('@frontend/views/weight/user')?>
         <section class="mt20">
             <div class="block-header">
@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <li>请尽量一句话描述内容要点。</li>
                     <li>主题正文可以为空。</li>
                     <li>V2SEX的主题正文支持 GitHub Flavored Markdown 文本标记语法。</li>
+                    <li>换行请用 <strong><\/br></strong> 标签</li>
                     <li>请为你的主题选择一个合适的节点。</li>
                     <li>主题发布后就<strong>不能更改</strong>。</li>
                     <li><strong>60分钟</strong> 后能对主题添加附言。</li>
