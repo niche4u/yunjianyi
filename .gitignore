@@ -1,3 +1,6 @@
+/frontend/web/uploads
+/frontend/assets/AppAsset.php
+/frontend/config/main.php
 /backend/config/main-local.php
 /backend/config/params-local.php
 /backend/web/index-test.php
