@@ -9,7 +9,7 @@ $NodeAd = \common\models\NodeAd::NodeAd($node->id);
 <section class="mt20">
     <div class="block-content markdown-content">
         <?php foreach ($NodeAd as $ad):?>
-        <?= Markdown::process(nl2br($ad['content']), 'gfm')?>
+        <?= Markdown::process($ad['content'], 'gfm')?>
         <?php endforeach?>
     </div>
 </section>
