@@ -13,5 +13,12 @@ return [
             'class' => 'yii\caching\FileCache',
             'cachePath' => '@frontend/runtime/cache'
         ],
+
+        'formatter' => [
+            'defaultTimeZone' => 'UTC',
+            'timeZone' => 'Asia/Shanghai',
+            'dateFormat' => 'php:Y-m-d',
+            'datetimeFormat'=>'php:Y-m-d H:i:s'
+        ],
     ],
 ];

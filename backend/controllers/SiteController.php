@@ -1,6 +1,9 @@
 <?php
 namespace backend\controllers;
 
+use common\models\Reply;
+use common\models\Topic;
+use common\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -58,7 +61,36 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->redirect('/topic/index');
+        //今天注册用户
+        $model['userToday'] = User::find()->where(['between', 'created_at', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400])->count();
+
+        //今天主题
+        $model['topicToday'] = Topic::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400])->count();
+
+        //今天回复
+        $model['replyToday'] = Reply::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400])->count();
+
+        //7天内注册用户
+        $model['user7day'] = User::find()->where(['between', 'created_at', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 7])->count();
+
+        //7天内主题
+        $model['topic7day'] = Topic::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 7])->count();
+
+        //7天内回复
+        $model['reply7day'] = Reply::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 7])->count();
+
+        //30天内注册用户
+        $model['user30day'] = User::find()->where(['between', 'created_at', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 30])->count();
+
+        //30天内主题
+        $model['topic30day'] = Topic::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 30])->count();
+
+        //30天内回复
+        $model['reply30day'] = Reply::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 30])->count();
+
+        return $this->render('index', [
+            'model' => $model,
+        ]);
     }
 
     public function actionLogin()

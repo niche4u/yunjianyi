@@ -63,7 +63,7 @@ class TabAd extends \yii\db\ActiveRecord
         if(!$TabAd = Yii::$app->cache->get('TabAd'.$tab))
         {
             $TabModel = Tab::findOne(['enname' => $tab]);
-            if($TabModel->id !== null) {
+            if(!empty($TabModel->id)) {
                 $TabAd = TabAd::find()->where(['tab_id' => $TabModel->id])->asArray()->all();
                 Yii::$app->cache->set('TabAd'.$tab, $TabAd, 0);
             }

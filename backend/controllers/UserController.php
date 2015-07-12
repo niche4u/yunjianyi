@@ -95,8 +95,6 @@ class UserController extends Controller
             'falseLabel' => '禁用',
         ];
         $gridColumns[] = 'email';
-        $gridColumns[] = 'homepage';
-        $gridColumns[] = 'area';
         $gridColumns[] = [
             'mergeHeader' => true,
             'attribute' => 'created_at',

@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.7
+-- version 4.4.6
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-07-08 15:31:09
+-- Generation Time: 2015-07-12 22:12:12
 -- 服务器版本： 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `route` varchar(256) DEFAULT NULL COMMENT '访问路由',
   `order` int(11) DEFAULT NULL COMMENT '排序',
   `data` text COMMENT '图标'
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `menu`
@@ -59,7 +59,8 @@ INSERT INTO `menu` (`id`, `name`, `route`, `order`, `data`) VALUES
 (8, 'TAB管理', '/tab/index', 5, '<i class="fa fa-navicon"></i>'),
 (9, '页面管理', '/page/index', 6, '<i class="fa fa-server"></i>'),
 (10, '清除缓存', '/site/clean-cache', 7, '<i class="fa fa-trash"></i>'),
-(12, 'TAB右侧菜单', '/tab-nav/index', 19, '<i class="fa fa-server"></i>');
+(12, 'TAB右侧菜单', '/tab-nav/index', 19, '<i class="fa fa-server"></i>'),
+(13, '后台首页', '/site/index', 0, '<i class="fa fa-dashboard"></i>');
 
 -- --------------------------------------------------------
 
@@ -82,6 +83,32 @@ CREATE TABLE IF NOT EXISTS `node` (
   `bg_color` varchar(20) DEFAULT NULL COMMENT '背景颜色',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   `created` int(11) NOT NULL COMMENT '创建时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `node_ad`
+--
+
+CREATE TABLE IF NOT EXISTS `node_ad` (
+  `id` int(11) NOT NULL COMMENT 'id',
+  `node_id` int(11) NOT NULL COMMENT '节点',
+  `content` text NOT NULL COMMENT '广告内容',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '启用'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `node_link`
+--
+
+CREATE TABLE IF NOT EXISTS `node_link` (
+  `id` int(11) NOT NULL COMMENT 'id',
+  `node_id` int(11) NOT NULL COMMENT '节点',
+  `content` text NOT NULL COMMENT '链接正文',
+  `status` tinyint(1) DEFAULT '0' COMMENT '启用'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -150,6 +177,19 @@ CREATE TABLE IF NOT EXISTS `tab` (
   `use_bg` tinyint(1) NOT NULL DEFAULT '0' COMMENT '启用背景图',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `tab_ad`
+--
+
+CREATE TABLE IF NOT EXISTS `tab_ad` (
+  `id` int(11) NOT NULL COMMENT 'id',
+  `tab_id` int(11) NOT NULL COMMENT 'tab',
+  `content` text NOT NULL COMMENT '广告内容',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '启用'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -230,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `email_verify_token`, `avatar`, `role`, `status`, `email_status`, `homepage`, `desc`, `area`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '85e7ahcThR1Btqu-wqfouYVIBfHwtd3a', '$2y$13$GcjsgjxyXJ7wdowJD2Ujeu77uVNkBj3j6H32MGg/7aygPG7QJUOH2', NULL, 'admin@yourdomain.com', 'h_DDbTznUkIkjqO8JRRTszUrkHtzwvwC_1435751017', 'default.png', 20, 1, 1, 'http://v2sex.com/', '资深AV爱好者，收藏了50T的av，每天都要下载av。', '深圳', 1435749537, 1436322688);
+(1, 'admin', '85e7ahcThR1Btqu-wqfouYVIBfHwtd3a', '$2y$13$F9n7tFBSOy35PjDZe7hHYOS/h4omRZlGxYpUGPrdANV5fB1CC0qL.', NULL, 'admin@yourdomain.com', 'h_DDbTznUkIkjqO8JRRTszUrkHtzwvwC_1435751017', 'default.png', 20, 1, 1, 'http://v2sex.com/', '资深AV爱好者，收藏了50T的av，每天都要下载av。', '深圳', 1435749537, 1436710272);
 
 --
 -- Indexes for dumped tables
@@ -257,6 +297,18 @@ ALTER TABLE `node`
   ADD KEY `tab_id` (`tab_id`);
 
 --
+-- Indexes for table `node_ad`
+--
+ALTER TABLE `node_ad`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `node_link`
+--
+ALTER TABLE `node_link`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `notice`
 --
 ALTER TABLE `notice`
@@ -278,6 +330,12 @@ ALTER TABLE `reply`
 -- Indexes for table `tab`
 --
 ALTER TABLE `tab`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tab_ad`
+--
+ALTER TABLE `tab_ad`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -313,12 +371,22 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `node`
 --
 ALTER TABLE `node`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '节点ID';
+--
+-- AUTO_INCREMENT for table `node_ad`
+--
+ALTER TABLE `node_ad`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id';
+--
+-- AUTO_INCREMENT for table `node_link`
+--
+ALTER TABLE `node_link`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id';
 --
 -- AUTO_INCREMENT for table `notice`
 --
@@ -339,6 +407,11 @@ ALTER TABLE `reply`
 --
 ALTER TABLE `tab`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'tab id';
+--
+-- AUTO_INCREMENT for table `tab_ad`
+--
+ALTER TABLE `tab_ad`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id';
 --
 -- AUTO_INCREMENT for table `topic`
 --
