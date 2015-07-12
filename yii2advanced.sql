@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-07-12 22:12:12
+-- Generation Time: 2015-07-12 22:24:53
 -- 服务器版本： 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `route` varchar(256) DEFAULT NULL COMMENT '访问路由',
   `order` int(11) DEFAULT NULL COMMENT '排序',
   `data` text COMMENT '图标'
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `menu`
@@ -58,9 +58,13 @@ INSERT INTO `menu` (`id`, `name`, `route`, `order`, `data`) VALUES
 (7, '节点管理', '/node/index', 4, '<i class="fa fa-tags"></i>'),
 (8, 'TAB管理', '/tab/index', 5, '<i class="fa fa-navicon"></i>'),
 (9, '页面管理', '/page/index', 6, '<i class="fa fa-server"></i>'),
-(10, '清除缓存', '/site/clean-cache', 7, '<i class="fa fa-trash"></i>'),
+(10, '清除缓存', '/site/clean-cache', 100, '<i class="fa fa-trash"></i>'),
 (12, 'TAB右侧菜单', '/tab-nav/index', 19, '<i class="fa fa-server"></i>'),
-(13, '后台首页', '/site/index', 0, '<i class="fa fa-dashboard"></i>');
+(13, '主题正文管理', '/topic-content/index', 4, '<i class="fa fa-pencil"></i>'),
+(14, '节点广告管理', '/node-ad/index', 5, '<i class="fa fa-buysellads"></i>'),
+(15, 'tab广告管理', '/tab-ad/index', 5, '<i class="fa fa-buysellads"></i>'),
+(16, '节点推荐链接管理', '/node-link/index', 5, '<i class="fa fa-buysellads"></i>'),
+(17, '后台首页', '/site/index', 0, '<i class="fa fa-dashboard"></i>');
 
 -- --------------------------------------------------------
 
@@ -371,7 +375,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `node`
 --
