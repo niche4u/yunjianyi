@@ -49,9 +49,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 <ul>
                     <li>请尽量一句话描述内容要点。</li>
                     <li>主题正文可以为空。</li>
-                    <li>请为你的主题选择一个合适的节点。</li>
-                    <li>你可以在主题发布后 600 秒内，对主题进行修改。</li>
+                    <li>V2SEX的主题正文支持 GitHub Flavored Markdown 文本标记语法。</li>
+                    <li>主题发布后就<strong>不能更改</strong>。</li>
+                    <li><strong>60分钟</strong> 后能对主题添加附言。</li>
                     <li>发布明显恶意的广告信息以及敏感内容将会被移除。</li>
+                    <li>发布<strong>色情图片</strong>的帐号将会永久禁用。</li>
                 </ul>
             </div>
         </section>
