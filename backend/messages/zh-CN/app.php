@@ -69,6 +69,7 @@ return [
     'Update Node Link' => '更新节点推荐链接',
     'Update Tab Ad' => '更新Tab广告',
     'Update Menu' => '更新菜单',
+    'Update Reply' => '更新回复',
     'Update Page' => '更新页面',
     'Update Tab Nav' => '更新TAB右侧菜单',
     'Pages' => '页面',
