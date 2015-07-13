@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Query;
 use yii\helpers\Html;
 use yii\imagine\Image;
 use yii\web\UploadedFile;
@@ -17,7 +18,7 @@ use yii\web\UploadedFile;
  * @property integer $parent_id
  * @property string $desc
  * @property string $logo
- * @property integer $is_hot
+ * @property integer $is_hidden
  * @property integer $need_login
  * @property string $bg
  * @property string $use_bg
@@ -45,7 +46,7 @@ class Node extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tab_id', 'parent_id', 'is_hot', 'use_bg', 'need_login', 'sort', 'created'], 'integer'],
+            [['tab_id', 'parent_id', 'is_hidden', 'use_bg', 'need_login', 'sort', 'created'], 'integer'],
             [['name', 'enname', 'desc', 'use_bg', 'created'], 'required'],
             [['name'], 'string', 'max' => 50],
             [['enname'], 'string', 'max' => 45],
@@ -69,7 +70,7 @@ class Node extends \yii\db\ActiveRecord
             'parent_id' => '父节点',
             'desc' => '节点描述',
             'logo' => 'logo',
-            'is_hot' => '是否热门节点',
+            'is_hidden' => '是否隐藏节点',
             'need_login' => '需要登陆',
             'bg' => '背景图',
             'use_bg' => '启用背景图片',
@@ -156,14 +157,33 @@ class Node extends \yii\db\ActiveRecord
 
     /**
      * 热门节点
-     * @param int $num 获取几条热门主题
+     * @param int $num 获取热门节点
      * @return array|\yii\db\ActiveRecord[]
      */
-    static function HotNode($num = 20)
+    static function HotNode($num = 15)
     {
-        return Node::find()->where(['is_hot' => 1])->limit($num)->all();
+        if(!$hotNode = Yii::$app->cache->get('hotNode'.$num))
+        {
+            $hotNode = (new Query())->select('node.enname, node.name')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->where('node.is_hidden = 0')->groupBy('topic.node_id')->orderBy('topic.node_id')->limit($num)->all();
+            Yii::$app->cache->set('hotNode'.$num, $hotNode, 86400);
+        }
+        return $hotNode;
     }
 
+    /**
+     * 最新节点
+     * @param int $num 获取最新节点
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    static function NewNode($num = 20)
+    {
+        if(!$NewNode = Yii::$app->cache->get('NewNode'.$num))
+        {
+            $NewNode = (new Query())->select('node.enname, node.name')->from(Node::tableName().' node')->orderBy('node.id DESC')->limit($num)->all();
+            Yii::$app->cache->set('NewNode'.$num, $NewNode, 86400);
+        }
+        return $NewNode;
+    }
 
     //获取节点信息，有缓存就获取缓存
     static function Info($id)
@@ -218,7 +238,7 @@ class Node extends \yii\db\ActiveRecord
                 $this->bg = $this->oldAttributes['bg'];
             }
 
-            if(isset($this->tab_id)) Yii::$app->cache->delete('subnodeid'.Tab::findOne($this->tab_id)->enname);
+            if(!empty($this->tab_id)) Yii::$app->cache->delete('subnodeid'.Tab::findOne($this->tab_id)->enname);
 
             return $this->save();
         }
@@ -253,7 +273,7 @@ class Node extends \yii\db\ActiveRecord
                 $this->bg = $filename . '.' . $extension;
             }
 
-            if(isset($this->tab_id)) Yii::$app->cache->delete('subnodeid'.Tab::findOne($this->tab_id)->enname);
+            if(!empty($this->tab_id)) Yii::$app->cache->delete('subnodeid'.Tab::findOne($this->tab_id)->enname);
 
             return $this->save();
         }

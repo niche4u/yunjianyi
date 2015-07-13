@@ -62,7 +62,7 @@ class Reply extends \yii\db\ActiveRecord
         $topic->reply = $topic->reply + 1;
         $topic->last_reply_time = time();
         $topic->updated_at = time();
-        $topic->last_reply_user = Yii::$app->user->id;
+        $topic->last_reply_user = Yii::$app->user->identity->username;
         $rst = $topic->update();
 
         //给用户发回复或者@通知,回复自己的不通知

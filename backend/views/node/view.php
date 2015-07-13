@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'bg',
             'use_bg',
             'bg_color',
-            'is_hot',
+            'is_hidden',
             'need_login',
             'sort',
             'created:datetime',

@@ -66,6 +66,7 @@ $this->params['breadcrumbs'][] = '最近的主题';
             <?= $this->render('@frontend/views/weight/user')?>
             <?= $this->render('@frontend/views/weight/hot-topic')?>
             <?= $this->render('@frontend/views/weight/hot-node')?>
+            <?= $this->render('@frontend/views/weight/new-node')?>
             <?= $this->render('@frontend/views/weight/stat')?>
         </div>
 

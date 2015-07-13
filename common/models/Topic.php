@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "topic".
@@ -14,7 +15,7 @@ use Yii;
  * @property integer $need_login
  * @property integer $click
  * @property integer $reply
- * @property integer $last_reply_user
+ * @property string $last_reply_user
  * @property integer $last_reply_time
  * @property integer $updated_at
  * @property integer $created
@@ -38,8 +39,9 @@ class Topic extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'created', 'title', 'node_id', 'updated_at'], 'required'],
-            [['user_id', 'node_id', 'need_login', 'click', 'follow', 'reply', 'last_reply_user', 'last_reply_time', 'updated_at', 'created'], 'integer'],
+            [['user_id', 'node_id', 'need_login', 'click', 'follow', 'reply', 'last_reply_time', 'updated_at', 'created'], 'integer'],
             [['title'], 'string', 'max' => 300],
+            [['last_reply_user'], 'string', 'max' => 255],
             [['title'], 'unique'],
         ];
     }
@@ -95,7 +97,7 @@ class Topic extends \yii\db\ActiveRecord
     public function getLastReplyUser()
     {
         if(empty($this->last_reply_user)) return null;
-        return $this->hasOne(User::className(), ['id' => 'last_reply_user']);
+        return $this->hasOne(User::className(), ['username' => 'last_reply_user']);
     }
 
     /**
@@ -197,7 +199,7 @@ class Topic extends \yii\db\ActiveRecord
      */
     static function HotTopic($num = 8)
     {
-        return Topic::find()->where(['between','created',strtotime(date('Y-m-d H:i',time())) - 86400, strtotime(date('Y-m-d H:i',time()))])->orderBy(['reply' => SORT_DESC])->limit($num)->all();
+        return $topic = (new Query())->select('topic.*, user.*')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->where(['between','topic.created',strtotime(date('Y-m-d H:i',time())) - 86400, strtotime(date('Y-m-d H:i',time()))])->orderBy(['topic.updated_at' => SORT_DESC])->limit($num)->all();
     }
 
     /**

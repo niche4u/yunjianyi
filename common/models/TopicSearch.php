@@ -18,7 +18,7 @@ class TopicSearch extends Topic
     public function rules()
     {
         return [
-            [['id', 'user_id', 'node_id', 'need_login', 'click', 'follow', 'reply', 'last_reply_user', 'last_reply_time', 'updated_at', 'created'], 'integer'],
+            [['id', 'user_id', 'node_id', 'need_login', 'click', 'follow', 'reply', 'last_reply_time', 'updated_at', 'created'], 'integer'],
             [['title'], 'safe'],
         ];
     }

@@ -42,7 +42,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'bg_color')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'is_hot')->dropDownList(['0' => '否', '1' => '是']) ?>
+    <?= $form->field($model, 'is_hidden')->dropDownList(['0' => '否', '1' => '是']) ?>
 
     <?= $form->field($model, 'need_login')->dropDownList(['0' => '否', '1' => '是']) ?>
 

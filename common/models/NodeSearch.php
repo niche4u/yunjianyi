@@ -18,7 +18,7 @@ class NodeSearch extends Node
     public function rules()
     {
         return [
-            [['id', 'tab_id', 'parent_id', 'is_hot', 'need_login', 'sort', 'created'], 'integer'],
+            [['id', 'tab_id', 'parent_id', 'is_hidden', 'need_login', 'sort', 'created'], 'integer'],
             [['name', 'enname', 'desc', 'logo'], 'safe'],
         ];
     }
@@ -60,7 +60,7 @@ class NodeSearch extends Node
             'id' => $this->id,
             'tab_id' => $this->tab_id,
             'parent_id' => $this->parent_id,
-            'is_hot' => $this->is_hot,
+            'is_hidden' => $this->is_hidden,
             'need_login' => $this->need_login,
             'sort' => $this->sort,
             'created' => $this->created,

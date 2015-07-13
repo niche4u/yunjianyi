@@ -117,7 +117,7 @@ class NodeController extends Controller
         ];
         $gridColumns[] = [
             'class'=>'kartik\grid\BooleanColumn',
-            'attribute'=>'is_hot',
+            'attribute'=>'is_hidden',
             'width'=>'100px',
             'vAlign'=>'middle',
             'trueLabel' => '是',

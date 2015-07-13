@@ -6,10 +6,12 @@ use common\models\Page;
 use common\models\Search;
 use common\models\Tab;
 use common\models\Topic;
+use common\models\User;
 use xj\sitemap\actions\SitemapUrlsetAction;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
+use yii\db\Query;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -139,8 +141,11 @@ class SiteController extends Controller
         if(!empty($tabModel->bg) && $tabModel->use_bg == 1) $this->bg = $tabModel->bg;
         if(!empty($tabModel->bg_color)) $this->bg_color = $tabModel->bg_color;
 
-        if($tab == 'new') $topic = Topic::find()->orderBy(['updated_at' => SORT_DESC])->limit(20)->all();
-        else $topic = Topic::find()->where(['in', 'node_id', Tab::SubNodeId($tab)])->orderBy(['updated_at' => SORT_DESC])->limit(20)->all();
+        if($tab == 'new') {
+            $topic = (new Query())->select('topic.*, node.*, user.*')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->orderBy(['topic.updated_at' => SORT_DESC])->limit(20)->all();
+        }else {
+            $topic = (new Query())->select('topic.*, node.*, user.*')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->andWhere(['in', 'topic.node_id', Tab::SubNodeId($tab)])->orderBy(['topic.updated_at' => SORT_DESC])->limit(20)->all();
+        }
         return $this->render('index', ['topic' => $topic]);
     }
 
@@ -149,12 +154,11 @@ class SiteController extends Controller
         $this->title = '最近的主题 - '.Yii::$app->name;
         $this->description = '';
 
-        $query = Topic::find();
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
-            'totalCount' => $query->count()
+            'totalCount' => (new Query())->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->where('node.is_hidden = 0')->count()
         ]);
-        $topic = $query->orderBy(['id' => SORT_DESC])->offset($pagination->offset)->limit($pagination->limit)->all();
+        $topic = (new Query())->select('topic.*, node.*, user.*')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->orderBy(['topic.id' => SORT_DESC])->offset($pagination->offset)->limit($pagination->limit)->all();
         return $this->render('recent', ['topic' => $topic, 'pagination'=> $pagination]);
     }
 

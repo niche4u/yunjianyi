@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `node` (
   `parent_id` int(11) DEFAULT NULL COMMENT '父节点',
   `desc` varchar(150) NOT NULL COMMENT '节点描述',
   `logo` varchar(30) NOT NULL COMMENT 'logo',
-  `is_hot` tinyint(1) DEFAULT '0' COMMENT '是否热门节点',
+  `is_hidden` tinyint(1) DEFAULT '0' COMMENT '是否隐藏节点',
   `need_login` tinyint(1) NOT NULL DEFAULT '0' COMMENT '需要登陆',
   `bg` varchar(30) DEFAULT NULL COMMENT '背景图',
   `use_bg` tinyint(1) NOT NULL DEFAULT '0' COMMENT '启用背景图片',

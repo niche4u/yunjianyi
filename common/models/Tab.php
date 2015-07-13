@@ -125,7 +125,7 @@ class Tab extends \yii\db\ActiveRecord
         {
             $tab = Tab::findOne(['enname' => $enname]);
             if(empty($tab->id)) return [];
-            $SubNodeId = ArrayHelper::map(Node::find()->where(['tab_id' => $tab->id])->all(), 'id', 'id');
+            $SubNodeId = ArrayHelper::map(Node::find()->where(['tab_id' => $tab->id])->andWhere(['is_hidden' => 0])->all(), 'id', 'id');
             Yii::$app->cache->set('subnodeid'.$enname, $SubNodeId, 0);
         }
         return $SubNodeId;
@@ -140,7 +140,6 @@ class Tab extends \yii\db\ActiveRecord
         if(!$SubTab = Yii::$app->cache->get('subtab'.$enname))
         {
             $SubTab = Tab::find()->where(['enname' => $enname])->with('tabRight')->with('nodes')->asArray()->one();
-            //if(empty($SubNode['nodes'])) $SubNode['nodes'] = ['id' => Node::find()->where(['id' => $SubNode['id']])->asArray()->one()];
             Yii::$app->cache->set('subnode'.$enname, $SubTab, 0);
         }
         return $SubTab;

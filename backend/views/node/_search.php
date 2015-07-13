@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'logo') ?>
 
-    <?php // echo $form->field($model, 'is_hot') ?>
+    <?php // echo $form->field($model, 'is_hidden') ?>
 
     <?php // echo $form->field($model, 'sort') ?>
 
