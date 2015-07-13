@@ -71,22 +71,22 @@ class SiteController extends Controller
         $model['replyToday'] = Reply::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400])->count();
 
         //7天内注册用户
-        $model['user7day'] = User::find()->where(['between', 'created_at', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 7])->count();
+        $model['user7day'] = User::find()->where(['between', 'created_at', strtotime(date('Y-m-d', time())) - 86400 * 7, strtotime(date('Y-m-d', time()))])->count();
 
         //7天内主题
-        $model['topic7day'] = Topic::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 7])->count();
+        $model['topic7day'] = Topic::find()->where(['between', 'created', strtotime(date('Y-m-d', time())) - 86400 * 7, strtotime(date('Y-m-d', time()))])->count();
 
         //7天内回复
-        $model['reply7day'] = Reply::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 7])->count();
+        $model['reply7day'] = Reply::find()->where(['between', 'created', strtotime(date('Y-m-d', time())) - 86400 * 7, strtotime(date('Y-m-d', time()))])->count();
 
         //30天内注册用户
-        $model['user30day'] = User::find()->where(['between', 'created_at', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 30])->count();
+        $model['user30day'] = User::find()->where(['between', 'created_at', strtotime(date('Y-m-d', time())) - 86400 * 30, strtotime(date('Y-m-d', time()))])->count();
 
         //30天内主题
-        $model['topic30day'] = Topic::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 30])->count();
+        $model['topic30day'] = Topic::find()->where(['between', 'created', strtotime(date('Y-m-d', time())) - 86400 * 30, strtotime(date('Y-m-d', time()))])->count();
 
         //30天内回复
-        $model['reply30day'] = Reply::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400 * 30])->count();
+        $model['reply30day'] = Reply::find()->where(['between', 'created', strtotime(date('Y-m-d', time())) - 86400 * 30, strtotime(date('Y-m-d', time()))])->count();
 
         return $this->render('index', [
             'model' => $model,
