@@ -2,7 +2,7 @@
 
 use yii\helpers\Markdown;
 
-$NodeAd = \common\models\NodeAd::NodeAd($node_id);
+$NodeAd = \common\models\NodeAd::NodeAd($node);
 
 ?>
 <?php if(!empty($NodeAd)):?>
