@@ -9,7 +9,7 @@ $agent = \common\components\Helper::agent();
 
 <?php if($agent == 'is_iphone' || $agent == 'is_android'):?>
 
-<ul id="Tabs" class="tab nav-pills nav<?php if(empty($subtab['nodes'])):?> no-sub-nav<?php endif?>" style="padding:10px 10px;">
+<ul id="Tabs" class="tab nav-pills nav no-sub-nav" style="padding:10px 10px;">
 <?php foreach($tab as $t):?>
     <li<?php if($t['enname'] == $tabActive) echo ' class="active"'?>><a href="?tab=<?= $t['enname']?>" style="padding:5px 6px;margin:0  0"><?= $t['name']?></a></li>
 <?php endforeach?>
