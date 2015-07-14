@@ -1,3 +1,4 @@
+<?php if(!empty($node->parent) || !empty($node->related)):?>
 <section>
 
     <?php if(!empty($node->parent)):?>
@@ -31,3 +32,4 @@
     <?php endif?>
 
 </section>
+<?php endif?>
