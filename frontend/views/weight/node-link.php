@@ -2,7 +2,7 @@
 
 use yii\helpers\Markdown;
 
-$NodeLink = \common\models\NodeLink::NodeLink($node->id);
+$NodeLink = \common\models\NodeLink::NodeLink($node_id);
 
 ?>
 <?php if(!empty($NodeLink)):?>

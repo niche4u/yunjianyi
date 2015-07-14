@@ -162,6 +162,9 @@ $agent = \common\components\Helper::agent();
 
     <div class="col-md-3 sidebar">
         <?= $this->render('@frontend/views/weight/user')?>
+        <?= $this->render('@frontend/views/weight/node-link', ['node' => $model->node['id']])?>
+        <?= $this->render('@frontend/views/weight/related-node', ['node' => $model->node['id']])?>
+        <?= $this->render('@frontend/views/weight/node-ad', ['node' => $model->node['id']])?>
     </div>
 
 </div>
