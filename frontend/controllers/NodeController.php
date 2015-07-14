@@ -5,6 +5,7 @@ use common\models\Node;
 use common\models\Topic;
 use Yii;
 use yii\data\Pagination;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -44,7 +45,11 @@ class NodeController extends Controller
         $this->title = $node->name.' - '.Yii::$app->name;
         $this->description = '';
 
-        $query = Topic::find()->where(['node_id' => $node->id]);
+        $SubNode[$node->id] = $node->id;
+        $SubSubNode = ArrayHelper::map(Node::find()->where(['parent_id' => $node->id])->andWhere(['is_hidden' => 0])->all(), 'id', 'id');
+        array_unique($SubNode, $SubSubNode);
+
+        $query = Topic::find()->where(['in', 'node_id', $SubNode]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()

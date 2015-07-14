@@ -126,6 +126,11 @@ class Tab extends \yii\db\ActiveRecord
             $tab = Tab::findOne(['enname' => $enname]);
             if(empty($tab->id)) return [];
             $SubNodeId = ArrayHelper::map(Node::find()->where(['tab_id' => $tab->id])->andWhere(['is_hidden' => 0])->all(), 'id', 'id');
+            foreach ($SubNodeId as $s) {
+                $SubSubNode = ArrayHelper::map(Node::find()->where(['parent_id' => $s])->andWhere(['is_hidden' => 0])->all(), 'id', 'id');
+                $SubNodeId = array_merge($SubNodeId, $SubSubNode);
+            }
+            array_unique($SubNodeId);
             Yii::$app->cache->set('subnodeid'.$enname, $SubNodeId, 0);
         }
         return $SubNodeId;
