@@ -3,7 +3,7 @@
         <div class="block-content">
             <strong><?= Yii::$app->name?>&nbsp;&nbsp;&nbsp;&nbsp;way to sex</strong>
             <div class="mt6"></div>
-            <small>V2SEX，一个技术宅的专属社区。</small>
+            <small>V2SEX，一个很实在的技术宅的专属社区。在这里交流技术，各种创意点子，聊妹子，聊男人，同性恋，各种兴趣爱好，提问，甚至可以交流AV。</small>
         </div>
     </section>
 <?php else:?>
