@@ -199,7 +199,7 @@ class Topic extends \yii\db\ActiveRecord
      */
     static function HotTopic($num = 8)
     {
-        return $topic = (new Query())->select('topic.*, user.username, user.avatar')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->andWhere(['between','topic.created',strtotime(date('Y-m-d H:i',time())) - 86400, strtotime(date('Y-m-d H:i',time()))])->orderBy(['topic.updated_at' => SORT_DESC])->limit($num)->all();
+        return $topic = (new Query())->select('topic.*, user.username, user.avatar')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->andWhere(['between','topic.created',strtotime(date('Y-m-d H:i',time())) - 86400, strtotime(date('Y-m-d H:i',time()))])->orderBy(['topic.reply' => SORT_DESC])->limit($num)->all();
     }
 
     /**
