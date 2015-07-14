@@ -24,7 +24,7 @@
                                         <a class="node" href="/node/<?= $t['enname']?>"><?= $t['name']?></a> &nbsp;•&nbsp; <strong><a href="/member/<?= $t['username']?>"><?= $t['username']?></a></strong>
                                     </small>
                                     <div class="mt5"></div>
-                                    <h2><a href="/topic/<?= $t->id?><?php if($t['reply'] > 0):?>#reply<?= $t['reply']?><?php endif?>"><?= $t['title']?></a></h2>
+                                    <h2><a href="/topic/<?= $t['id']?><?php if($t['reply'] > 0):?>#reply<?= $t['reply']?><?php endif?>"><?= $t['title']?></a></h2>
                                     <small>
                                         <?php if(!empty($t['last_reply_time'])):?><?= Yii::$app->formatter->asRelativeTime($t['last_reply_time'])?> &nbsp;•&nbsp; 最后回复 <strong><a href="/member/<?= $t['last_reply_user']?>"><?= $t['last_reply_user']?></a></strong>
                                         <?php else:?>
