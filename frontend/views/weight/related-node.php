@@ -1,4 +1,4 @@
-<?php if(!empty($node->parent) || !empty($node->related)):?>
+<?php if(!empty($node->parent) || !empty($node->related) || !empty($node->nodes)):?>
 <section>
 
     <?php if(!empty($node->parent)):?>
