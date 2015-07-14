@@ -142,9 +142,9 @@ class SiteController extends Controller
         if(!empty($tabModel->bg_color)) $this->bg_color = $tabModel->bg_color;
 
         if($tab == 'new') {
-            $topic = (new Query())->select('topic.*, node.*, user.*')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->orderBy(['topic.updated_at' => SORT_DESC])->limit(20)->all();
+            $topic = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->orderBy(['topic.updated_at' => SORT_DESC])->limit(20)->all();
         }else {
-            $topic = (new Query())->select('topic.*, node.*, user.*')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->andWhere(['in', 'topic.node_id', Tab::SubNodeId($tab)])->orderBy(['topic.updated_at' => SORT_DESC])->limit(20)->all();
+            $topic = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->andWhere(['in', 'topic.node_id', Tab::SubNodeId($tab)])->orderBy(['topic.updated_at' => SORT_DESC])->limit(20)->all();
         }
         return $this->render('index', ['topic' => $topic]);
     }
@@ -158,7 +158,7 @@ class SiteController extends Controller
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => (new Query())->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->where('node.is_hidden = 0')->count()
         ]);
-        $topic = (new Query())->select('topic.*, node.*, user.*')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->orderBy(['topic.id' => SORT_DESC])->offset($pagination->offset)->limit($pagination->limit)->all();
+        $topic = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->orderBy(['topic.id' => SORT_DESC])->offset($pagination->offset)->limit($pagination->limit)->all();
         return $this->render('recent', ['topic' => $topic, 'pagination'=> $pagination]);
     }
 
