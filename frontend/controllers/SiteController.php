@@ -192,8 +192,11 @@ class SiteController extends Controller
         $this->title = '关于 - '.Yii::$app->name;
         $this->description = '';
 
-        $model = Page::findOne(['route' => 'about']);
-        return $this->render('page', ['model' => $model]);
+        if (($model = Page::findOne(['route' => 'about'])) !== null) {
+            return $this->render('page', ['model' => $model]);
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
 }
