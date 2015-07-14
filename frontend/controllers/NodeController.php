@@ -47,7 +47,7 @@ class NodeController extends Controller
 
         $SubNode[$node->id] = $node->id;
         $SubSubNode = ArrayHelper::map(Node::find()->where(['parent_id' => $node->id])->andWhere(['is_hidden' => 0])->all(), 'id', 'id');
-        array_unique($SubNode, $SubSubNode);
+        array_unique(array_merge($SubNode, $SubSubNode));
 
         $query = Topic::find()->where(['in', 'node_id', $SubNode]);
         $pagination = new Pagination([
