@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status')->dropDownList(['1' => '启用', '0' => '禁用']) ?>
 
-    <?= $form->field($model, 'email_status')->dropDownList(['1' => '激活', '0' => '待激活']) ?>
+    <?= $form->field($model, 'email_status')->dropDownList(['0' => '待激活', '1' => '激活']) ?>
 
 
     <div class="form-group">
