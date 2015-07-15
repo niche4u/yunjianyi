@@ -94,6 +94,14 @@ class UserController extends Controller
             'trueLabel' => '启用',
             'falseLabel' => '禁用',
         ];
+        $gridColumns[] = [
+            'class'=>'kartik\grid\BooleanColumn',
+            'attribute'=>'email_status',
+            'width'=>'100px',
+            'vAlign'=>'middle',
+            'trueLabel' => '激活',
+            'falseLabel' => '待激活',
+        ];
         $gridColumns[] = 'email';
         $gridColumns[] = [
             'mergeHeader' => true,
