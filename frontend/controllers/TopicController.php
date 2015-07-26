@@ -10,6 +10,7 @@ use common\models\TopicContent;
 use common\models\User;
 use Yii;
 use yii\data\Pagination;
+use yii\helpers\Html;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -147,7 +148,7 @@ class TopicController extends Controller
         }
         else {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return Markdown::process($content, 'gfm');
+            return Markdown::process(Html::encode($content), 'gfm');
         }
     }
 

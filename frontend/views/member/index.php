@@ -88,7 +88,7 @@ $agent = \common\components\Helper::agent();
                         <div class="member-reply-author">
                             <aside><small>回复了 <a href="/member/<?= $topicInfo['username']?>"><?= $topicInfo['username']?></a> 创建的主题 <a href="/topic/<?= $c->topic_id?>"> <?= $topicInfo['title']?></a> &nbsp;&nbsp;<?= Yii::$app->formatter->asRelativeTime($c->created)?></small></aside>
                         </div>
-                        <div class="mt10"><p><?= Helper::autoLink(\yii\helpers\Markdown::process($c->content, 'gfm'))?></p></div>
+                        <div class="mt10"><p><?= Helper::autoLink(\yii\helpers\Markdown::process(\yii\helpers\Html::encode($c->content), 'gfm'))?></p></div>
                         <div class="clearfix"></div>
                     </div>
                 </article>
