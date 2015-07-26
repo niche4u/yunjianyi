@@ -45,7 +45,7 @@ $agent = \common\components\Helper::agent();
                 <?php if(!empty($model->homepage)):?>
                     <p><a href="<?= $model->homepage?>" target="_blank" rel="nofollow"><?= $model->homepage?></a></p>
                 <?php endif?>
-                <p><?= nl2br($model->desc)?></p>
+                <p><?= \yii\helpers\Html::encode(nl2br($model->desc))?></p>
             </article>
             <?php endif?>
         </section>
