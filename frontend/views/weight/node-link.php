@@ -9,7 +9,7 @@ $NodeLink = \common\models\NodeLink::NodeLink($node);
 <section>
     <div class="block-content markdown-content">
         <?php foreach ($NodeLink as $link):?>
-        <?= Markdown::process($link['content'], 'gfm-comment')?>
+        <?= $link['content']?>
         <?php endforeach?>
     </div>
 </section>

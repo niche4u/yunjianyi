@@ -2,7 +2,10 @@
 
 namespace common\models;
 
+use common\components\Helper;
 use Yii;
+use yii\helpers\HtmlPurifier;
+use yii\helpers\Markdown;
 
 /**
  * This is the model class for table "notice".
@@ -63,5 +66,11 @@ class Notice extends \yii\db\ActiveRecord
     {
         $count = Notice::find()->where(['to_user_id' => Yii::$app->user->id, 'is_read' => 0])->count();
         return empty($count) ? null : $count;
+    }
+
+    public function afterFind()
+    {
+        $this->msg  = Helper::autoLink(HtmlPurifier::process(Markdown::process($this->msg, 'gfm-comment')));
+        parent::afterFind();
     }
 }

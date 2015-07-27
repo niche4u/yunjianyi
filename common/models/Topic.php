@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\Query;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "topic".
@@ -218,5 +219,11 @@ class Topic extends \yii\db\ActiveRecord
             '1' => Yii::t('app', 'YES'),
             '0' => Yii::t('app', 'NO'),
         ];
+    }
+
+    public function afterFind()
+    {
+        $this->title  = Html::encode($this->title);
+        parent::afterFind();
     }
 }

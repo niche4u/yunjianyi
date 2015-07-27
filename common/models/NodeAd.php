@@ -2,7 +2,10 @@
 
 namespace common\models;
 
+use common\components\Helper;
 use Yii;
+use yii\helpers\HtmlPurifier;
+use yii\helpers\Markdown;
 
 /**
  * This is the model class for table "node_ad".
@@ -64,5 +67,11 @@ class NodeAd extends \yii\db\ActiveRecord
             Yii::$app->cache->set('NodeAd'.$node, $NodeAd, 0);
         }
         return $NodeAd;
+    }
+
+    public function afterFind()
+    {
+        $this->content  = Helper::autoLink(HtmlPurifier::process(Markdown::process($this->content, 'gfm-comment')));
+        parent::afterFind();
     }
 }
