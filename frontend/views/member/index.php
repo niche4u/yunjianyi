@@ -44,7 +44,7 @@ $agent = \common\components\Helper::agent();
                 <?php if(!empty($model->homepage)):?>
                     <p><a href="<?= $model->homepage?>" target="_blank" rel="nofollow"><?= $model->homepage?></a></p>
                 <?php endif?>
-                <p><?= $model->desc?></p>
+                <p><?= \common\components\Helper::autoLink(\yii\helpers\HtmlPurifier::process(\yii\helpers\Markdown::process($model->desc, 'gfm-comment')))?></p>
             </article>
             <?php endif?>
         </section>
