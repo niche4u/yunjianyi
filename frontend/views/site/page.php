@@ -1,7 +1,5 @@
 <?php
 
-use yii\helpers\Markdown;
-
 $this->params['breadcrumbs'][] = $model->title;
 ?>
 <div class="row">

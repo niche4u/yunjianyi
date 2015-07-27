@@ -1,5 +1,4 @@
 <?php
-use common\components\Helper;
 
 $agent = \common\components\Helper::agent();
 ?>
@@ -45,7 +44,7 @@ $agent = \common\components\Helper::agent();
                 <?php if(!empty($model->homepage)):?>
                     <p><a href="<?= $model->homepage?>" target="_blank" rel="nofollow"><?= $model->homepage?></a></p>
                 <?php endif?>
-                <p><?= \yii\helpers\Html::encode(nl2br($model->desc))?></p>
+                <p><?= $model->desc?></p>
             </article>
             <?php endif?>
         </section>

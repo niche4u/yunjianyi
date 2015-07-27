@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use common\components\Helper;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -8,6 +9,8 @@ use yii\caching\ChainedDependency;
 use yii\caching\DbDependency;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
+use yii\helpers\HtmlPurifier;
+use yii\helpers\Markdown;
 use yii\web\IdentityInterface;
 
 /**
@@ -353,4 +356,9 @@ class User extends ActiveRecord implements IdentityInterface
         return $roles[$this->role];
     }
 
+    public function afterFind()
+    {
+        $this->desc  = Helper::autoLink(HtmlPurifier::process(Markdown::process($this->desc, 'gfm-comment')));
+        parent::afterFind();
+    }
 }

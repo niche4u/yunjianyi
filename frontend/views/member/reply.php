@@ -1,5 +1,4 @@
 <?php
-use common\components\Helper;
 
 $this->title = '发布的回复';
 $this->params['breadcrumbs'][] = ['label' => $user->username, 'url' => '/member/'.$user->username];

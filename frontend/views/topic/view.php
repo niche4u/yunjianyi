@@ -1,8 +1,6 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use common\components\Helper;
-use yii\helpers\Markdown;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */

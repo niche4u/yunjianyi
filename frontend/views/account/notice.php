@@ -1,5 +1,4 @@
 <?php
-use common\components\Helper;
 
 $this->title = '通知';
 $this->params['breadcrumbs'][] = $this->title;
