@@ -144,29 +144,6 @@ class Topic extends \yii\db\ActiveRecord
         return false;
     }
 
-//    public function edit()
-//    {
-//        if ($this->validate()) {
-//            $this->updated_at = time();
-//            if($this->save())
-//            {
-//                $topicContent = TopicContent::findOne($this->id);
-//                if ($topicContent->load(Yii::$app->request->post())) {
-//
-//                    $search = Search::findOne($this->id);
-//                    if(!empty($search)) {
-//                        $search->title = $this->title;
-//                        $search->content = $topicContent->content;
-//                        $search->save();
-//                    }
-//
-//                    return $topicContent->save();
-//                }
-//            }
-//        }
-//        return false;
-//    }
-
     public function append()
     {
         if ($this->validate()) {
@@ -242,5 +219,4 @@ class Topic extends \yii\db\ActiveRecord
             '0' => Yii::t('app', 'NO'),
         ];
     }
-
 }

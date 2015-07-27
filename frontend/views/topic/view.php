@@ -61,7 +61,7 @@ $agent = \common\components\Helper::agent();
             <?php if(!empty($model->content->content)):?>
             <article class="topic-body markdown-content">
                 <?= \frontend\widgets\Alert::widget() ?>
-                <?php echo Helper::autoLink(Markdown::process(Html::encode($model->content->content), 'gfm'))?>
+                <?= $model->content->content?>
             </article>
             <?php endif?>
 
@@ -70,7 +70,7 @@ $agent = \common\components\Helper::agent();
                 <?php foreach($model->append as $a):?>
                 <div class="mt10 ml15"><small>第 <?= $k?> 条附言 · <?= Yii::$app->formatter->asRelativeTime($a->created)?></small></div>
                 <article class="topic-body markdown-content">
-                    <?= Helper::autoLink(Markdown::process(Html::encode($a->content), 'gfm'))?>
+                    <?= $a->content?>
                 </article>
                     <?php $k++?>
                 <?php endforeach?>
@@ -121,7 +121,7 @@ $agent = \common\components\Helper::agent();
                         </div>
                         </aside>
                     </div>
-                    <div class="mt3"><p><?= Helper::autoLink(Markdown::process(Html::encode($c->content), 'gfm'))?></p></div>
+                    <div class="mt3"><p><?= $c->content?></p></div>
                     <div class="clearfix"></div>
                 </div>
             </article>
@@ -146,7 +146,8 @@ $agent = \common\components\Helper::agent();
                     <?= Html::activeHiddenInput($reply, 'topic_id', ['value' => $model->id])?>
                     <?= $form->field($reply, 'content')->textarea(['rows' => 6])->label(false) ?>
                     <div class="form-group">
-                        <?= Html::submitButton('提交回复', ['class' => 'btn btn-primary', 'name' => 'reply-button']) ?>
+                        <?= Html::submitButton('提交回复', ['class' => 'btn btn-success', 'name' => 'reply-button']) ?>
+                        <?= Html::button('预览回复', ['class' => 'btn btn-primary preview']) ?>
                     </div>
                     <?php ActiveForm::end(); ?>
                     <?php else:?>
@@ -156,6 +157,7 @@ $agent = \common\components\Helper::agent();
                     您需要登录后才可以回复。<a href="/login">登录</a> | <a href="/signup">注册</a>
                 <?php endif?>
             </div>
+            <div class="row" id="preview"></div>
         </section>
 
     </div>
@@ -167,3 +169,18 @@ $agent = \common\components\Helper::agent();
     </div>
 
 </div>
+<?php
+$sendJs = "\n
+  $('.preview').click(function(){
+     $('#reply-content').val();
+     $.ajax({
+      url:'/topic/preview',
+      type: 'POST',
+      data: {content:$('#reply-content').val()},
+      success: function(json) {
+          $('#preview').html('<div class=\"col-lg-12\"><article class=\"header reply-body markdown-content\">'+json+'</article></div>')
+        },
+    });
+  });";
+$this->registerJs($sendJs, \yii\web\View::POS_READY);
+?>

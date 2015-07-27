@@ -11,6 +11,7 @@ use common\models\User;
 use Yii;
 use yii\data\Pagination;
 use yii\helpers\Html;
+use yii\helpers\HtmlPurifier;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -94,8 +95,8 @@ class TopicController extends Controller
         if(!empty($model->node->bg) && $model->node->use_bg == 1) $this->bg = $model->node->bg;
         if(!empty($model->node->bg_color)) $this->bg_color = $model->node->bg_color;
 
-        $this->title = $model->title.' - '.Yii::$app->name;
-        $this->description = $model->node['name'].' - '.$model->user->username.' - '.Helper::truncateUtf8String($model->content->content, 200);
+        if(isset($model->content->content)) $this->description = $model->node->name.' - '.$model->user->username.' - '.Helper::truncateUtf8String($model->content->content, 200);
+        else $this->description = $model->node->name.' - '.$model->user->username.Helper::truncateUtf8String($model->title, 200);
 
         $replyQuery = Reply::find()->where(['topic_id' => $model->id]);
         $pagination = new Pagination([
@@ -148,7 +149,7 @@ class TopicController extends Controller
         }
         else {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return Markdown::process(Html::encode($content), 'gfm');
+            return Helper::autoLink(HtmlPurifier::process(Markdown::process($content, 'gfm-comment')));
         }
     }
 

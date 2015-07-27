@@ -2,7 +2,10 @@
 
 namespace common\models;
 
+use common\components\Helper;
 use Yii;
+use yii\helpers\HtmlPurifier;
+use yii\helpers\Markdown;
 
 /**
  * This is the model class for table "page".
@@ -46,5 +49,11 @@ class Page extends \yii\db\ActiveRecord
             'title' => '页面标题',
             'content' => '页面内容',
         ];
+    }
+
+    public function afterFind()
+    {
+        $this->content  = Helper::autoLink(HtmlPurifier::process(Markdown::process($this->content, 'gfm')));
+        parent::afterFind();
     }
 }

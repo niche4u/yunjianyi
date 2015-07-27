@@ -9,7 +9,7 @@ $NodeAd = \common\models\NodeAd::NodeAd($node);
 <section>
     <div class="block-content markdown-content">
         <?php foreach ($NodeAd as $ad):?>
-        <?= Markdown::process($ad['content'], 'gfm')?>
+        <?= Markdown::process($ad['content'], 'gfm-comment')?>
         <?php endforeach?>
     </div>
 </section>

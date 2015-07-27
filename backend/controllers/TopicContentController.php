@@ -9,6 +9,7 @@ use common\models\TopicContent;
 use common\models\TopicContentSearch;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\HtmlPurifier;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -167,7 +168,7 @@ class TopicContentController extends Controller
         }
         else {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return Markdown::process(Html::encode($content), 'gfm');
+            return Helper::autoLink(HtmlPurifier::process(Markdown::process($content, 'gfm-comment')));
         }
     }
 

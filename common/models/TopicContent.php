@@ -2,7 +2,10 @@
 
 namespace common\models;
 
+use common\components\Helper;
 use Yii;
+use yii\helpers\HtmlPurifier;
+use yii\helpers\Markdown;
 
 /**
  * This is the model class for table "topic_content".
@@ -67,5 +70,11 @@ class TopicContent extends \yii\db\ActiveRecord
     {
         if(empty($this->content)) $this->content = '';
         return parent::beforeSave($insert);
+    }
+
+    public function afterFind()
+    {
+        $this->content  = Helper::autoLink(HtmlPurifier::process(Markdown::process($this->content, 'gfm-comment')));
+        parent::afterFind();
     }
 }

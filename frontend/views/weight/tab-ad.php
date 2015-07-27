@@ -9,7 +9,7 @@ $TabAd = \common\models\TabAd::TabAd(Yii::$app->session->get('tab'));
 <section>
     <div class="block-content markdown-content">
         <?php foreach ($TabAd as $ad):?>
-        <?= Markdown::process($ad['content'], 'gfm')?>
+        <?= Markdown::process($ad['content'], 'gfm-comment')?>
         <?php endforeach?>
     </div>
 </section>

@@ -2,7 +2,10 @@
 
 namespace common\models;
 
+use common\components\Helper;
 use Yii;
+use yii\helpers\HtmlPurifier;
+use yii\helpers\Markdown;
 
 /**
  * This is the model class for table "reply".
@@ -101,6 +104,12 @@ class Reply extends \yii\db\ActiveRecord
         }
 
         return parent::afterSave($insert, $changedAttributes);
+    }
+
+    public function afterFind()
+    {
+        $this->content  = Helper::autoLink(HtmlPurifier::process(Markdown::process($this->content, 'gfm-comment')));
+        parent::afterFind();
     }
 
     /**
