@@ -45,12 +45,7 @@ class NodeController extends Controller
         $this->title = $node->name.' - '.Yii::$app->name;
         $this->description = '';
 
-        $SubNode[$node->id] = $node->id;
-        $SubSubNode = ArrayHelper::map(Node::find()->where(['parent_id' => $node->id])->andWhere(['is_hidden' => 0])->all(), 'id', 'id');
-        $SubNode = array_merge($SubNode, $SubSubNode);
-        array_unique($SubNode);
-
-        $query = Topic::find()->where(['in', 'node_id', $SubNode]);
+        $query = Topic::find()->where(['node_id' => $node->id]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()
