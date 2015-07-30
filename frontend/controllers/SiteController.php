@@ -114,7 +114,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->title = Yii::$app->name;
-        $this->description = 'V2SEX，一个很实在的技术宅的专属社区。在这里交流技术，各种创意点子，聊妹子，聊男人，同性恋，各种兴趣爱好，提问，甚至可以交流AV。';
+        $this->description = 'V2SEX，一个很实在的技术宅的专属社区。';
 
         $tab = Yii::$app->request->get('tab');
         $sessionTab = Yii::$app->session->get('tab');

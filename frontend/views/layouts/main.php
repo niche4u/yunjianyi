@@ -103,7 +103,7 @@ $this->registerJs($sendJs, \yii\web\View::POS_READY);
 	        <a href="/about">关于</a>
 	    </p>
         <p class="pull-right">
-	        &copy; <?= Yii::$app->name?> <?= date('Y') ?>
+	        &copy; <?= Yii::$app->name?> <?= date('Y') ?>&nbsp;•&nbsp; <?= floor(Yii::getLogger()->getElapsedTime() * 1000).' ms';?>
 	    </p>
         </div>
     </footer>
