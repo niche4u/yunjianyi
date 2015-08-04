@@ -4,7 +4,6 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\imagine\Image;
 use yii\web\UploadedFile;
 
 /**
@@ -115,8 +114,19 @@ class Tab extends \yii\db\ActiveRecord
         return $tab;
     }
 
+    //获取tab信息，有缓存就获取缓存
+    static function Info($enname)
+    {
+        if(!$TabInfo = Yii::$app->cache->get('TabInfo'.$enname))
+        {
+            $TabInfo = Tab::find()->where(['enname' => $enname])->asArray()->one();
+            Yii::$app->cache->set('TabInfo'.$enname, $TabInfo, 0);
+        }
+        return $TabInfo;
+    }
+
     /**
-     * 获取tab的节点id，有缓存就获取缓存，用来取tab下面的节点主题
+     * 获取tab的节点id，有缓存就获取缓存，用来取tab下面的节点建议
      * @return array|\yii\db\ActiveRecord[]
      */
     static function SubNodeId($enname)
@@ -137,10 +147,10 @@ class Tab extends \yii\db\ActiveRecord
      */
     static function SubTab($enname)
     {
-        if(!$SubTab = Yii::$app->cache->get('subtab'.$enname))
+        if(!$SubTab = Yii::$app->cache->get('SubTab'.$enname))
         {
             $SubTab = Tab::find()->where(['enname' => $enname])->with('tabRight')->with('nodes')->asArray()->one();
-            Yii::$app->cache->set('subnode'.$enname, $SubTab, 0);
+            Yii::$app->cache->set('SubTab'.$enname, $SubTab, 0);
         }
         return $SubTab;
     }

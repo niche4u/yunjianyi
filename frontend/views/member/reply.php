@@ -15,13 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
             <?php foreach($model as $c):?>
-                <?php $topicInfo = \common\models\Topic::Info($c->topic_id);?>
                 <article class="member-reply">
                     <div class="member-reply-body">
                         <div class="member-reply-author">
-                            <aside><small>回复了 <a href="/member/<?= $topicInfo['username']?>"><?= $topicInfo['username']?></a> 创建的主题 <a href="/topic/<?= $c->topic_id?>"> <?= $topicInfo['title']?></a> &nbsp;&nbsp;<?= Yii::$app->formatter->asRelativeTime($c->created)?></small></aside>
+                            <aside><small>回复了 <a href="/member/<?= $c['username']?>"><?= $c['username']?></a> 提的建议 <a href="/topic/<?= $c['topic_id']?>"> <?= $c['title']?></a> &nbsp;&nbsp;<?= Yii::$app->formatter->asRelativeTime($c['created'])?></small></aside>
                         </div>
-                        <div class="mt10"><p><?= $c->content?></p></div>
+                        <div class="mt10 markdown-content"><?= \common\components\Helper::autoLink(\yii\helpers\HtmlPurifier::process(\yii\helpers\Markdown::process($c['content'], 'gfm-comment')))?></div>
                         <div class="clearfix"></div>
                     </div>
                 </article>

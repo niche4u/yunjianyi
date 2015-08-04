@@ -1,7 +1,5 @@
 <?php
 
-use yii\helpers\Markdown;
-
 $NodeLink = \common\models\NodeLink::NodeLink($node);
 
 ?>

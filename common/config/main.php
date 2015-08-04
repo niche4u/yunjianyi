@@ -13,6 +13,16 @@ return [
             'class' => 'yii\caching\FileCache',
             'cachePath' => '@frontend/runtime/cache'
         ],
+//        'cache' => [
+//            'class' => 'yii\caching\MemCache',
+//            'useMemcached' => true,
+//            'servers' => [
+//                [
+//                    'host' => 'localhost',
+//                    'port' => 11211,
+//                ],
+//            ],
+//        ],
 
         'formatter' => [
             'defaultTimeZone' => 'UTC',

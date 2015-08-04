@@ -4,16 +4,14 @@ namespace frontend\controllers;
 use common\components\Helper;
 use common\models\Reply;
 use common\models\Node;
-use common\models\Search;
 use common\models\Topic;
 use common\models\TopicContent;
 use common\models\User;
 use Yii;
 use yii\data\Pagination;
-use yii\helpers\Html;
+use yii\db\Query;
 use yii\helpers\HtmlPurifier;
 use yii\web\BadRequestHttpException;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\helpers\Markdown;
@@ -21,13 +19,8 @@ use yii\helpers\Markdown;
 /**
  * Site controller
  */
-class TopicController extends Controller
+class TopicController extends FrontendController
 {
-    public $title = '';
-    public $description = '';
-    public $bg = null;
-    public $bg_color = null;
-
     /**
      * @inheritdoc
      */
@@ -43,13 +36,13 @@ class TopicController extends Controller
     public function actionCreate($node = null)
     {
         if(Yii::$app->user->isGuest) {
-            Yii::$app->getSession()->setFlash('danger', '你需要登陆之后才能创作新主题');
+            Yii::$app->getSession()->setFlash('danger', '你需要登陆之后才能提建议');
             return $this->redirect('/account/login?next=/topic/create');
         }
 
         if(Yii::$app->user->identity->email_status == 0) $this->goHome();
 
-        $this->title = '创作新主题 - '.Yii::$app->name;
+        $this->title = '提建议 - '.Yii::$app->name;
         $this->description = '';
 
         if (!empty($node)) {
@@ -88,19 +81,25 @@ class TopicController extends Controller
         $model = $this->findModel($id);
 
         if($model->need_login == 1 && Yii::$app->user->isGuest) {
-            Yii::$app->getSession()->setFlash('danger', '你访问的主题需要登陆之后才能查看');
+            Yii::$app->getSession()->setFlash('danger', '你访问的建议需要登陆之后才能查看');
             return $this->redirect('/account/login?next=/topic/'.$id);
         }
 
         if(!empty($model->node->bg) && $model->node->use_bg == 1) $this->bg = $model->node->bg;
         if(!empty($model->node->bg_color)) $this->bg_color = $model->node->bg_color;
 
+        $this->title = $model->title.' - '.Yii::$app->name;
         if(isset($model->content->content)) $this->description = $model->node->name.' - '.$model->user->username.' - '.Helper::truncateUtf8String($model->content->content, 200);
         else $this->description = $model->node->name.' - '.$model->user->username.Helper::truncateUtf8String($model->title, 200);
+        $this->canonical = Yii::$app->params['domain'].'topic/'.$id;
 
-        $replyQuery = Reply::find()->where(['topic_id' => $model->id]);
+        $replyQuery = (new Query())
+            ->select('reply.*, user.username, user.avatar, user.role')
+            ->from(Reply::tableName())
+            ->leftJoin(User::tableName(), 'user.id = reply.user_id')
+            ->where(['reply.topic_id' => $id]);
         $pagination = new Pagination([
-            'defaultPageSize' => Yii::$app->params['pageSize'],
+            'defaultPageSize' => Yii::$app->params['ReplyPageSize'],
             'totalCount' => $replyQuery->count()
         ]);
         $replyList = $replyQuery->offset($pagination->offset)->limit($pagination->limit)->all();
@@ -112,6 +111,7 @@ class TopicController extends Controller
 
             $reply = new Reply();
             if ($reply->load(Yii::$app->request->post()) && $reply->save()) {
+                Yii::$app->cache->delete('ReplyCount');
                 $this->redirect('/topic/'.$id.'#Reply');
             }
             return $this->render('view', [
@@ -149,42 +149,9 @@ class TopicController extends Controller
         }
         else {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return Helper::autoLink(HtmlPurifier::process(Markdown::process($content, 'gfm-comment')));
+            return HtmlPurifier::process(Markdown::process($content, 'gfm-comment'));
         }
     }
-
-//    public function actionEdit($id)
-//    {
-//        if(Yii::$app->user->isGuest) {
-//            Yii::$app->getSession()->setFlash('danger', '你需要登陆之后才能编辑主题');
-//            return $this->redirect('/account/login?next=/topic/edit?id='.$id);
-//        }
-//
-//        $model = $this->findModel($id);
-//        $this->title = $model->title.' - 编辑主题 - '.Yii::$app->name;
-//        $this->description = '';
-//
-//        if(time() - $model->created > 300) {
-//            Yii::$app->getSession()->setFlash('danger', '你没权限编辑这个主题');
-//            return $this->redirect('/topic/'.$model->id);
-//        }
-//
-//        $topicContent = TopicContent::findOne(['topic_id' => $model->id]);
-//
-//        if ($model->user_id != Yii::$app->user->id) {
-//            Yii::$app->getSession()->setFlash('danger', '你没权限编辑这个主题');
-//            return $this->redirect('/topic/'.$model->id);
-//        }
-//
-//        if ($model->load(Yii::$app->request->post()) && $model->edit()) {
-//            $this->redirect('/topic/'.$model->id);
-//        } else {
-//            return $this->render('edit', [
-//                'model' => $model,
-//                'topicContent' => $topicContent,
-//            ]);
-//        }
-//    }
 
     public function actionAppend($id)
     {
@@ -198,13 +165,13 @@ class TopicController extends Controller
         $this->description = '';
 
         if(time() - $model->created <= 300) {
-            Yii::$app->getSession()->setFlash('danger', '你没有权限为本主题添加附言');
+            Yii::$app->getSession()->setFlash('danger', '你没有权限为本建议添加附言');
             return $this->redirect('/topic/'.$model->id);
         }
 
         $topicContent = new TopicContent();
         if ($model->user_id != Yii::$app->user->id) {
-            Yii::$app->getSession()->setFlash('danger', '你没有权限为本主题添加附言');
+            Yii::$app->getSession()->setFlash('danger', '你没有权限为本建议添加附言');
             return $this->redirect('/topic/'.$model->id);
         }
 

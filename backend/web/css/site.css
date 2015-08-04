@@ -157,3 +157,9 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+.main-sidebar, .left-side {
+    padding-top: 0 !important;
+}
+.sidebar-collapse .main-header>.navbar {
+    margin-left:0;
+}

@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.6
+-- version 4.4.9
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-07-12 22:24:53
+-- Generation Time: 2015-08-04 18:30:47
 -- 服务器版本： 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
@@ -14,10 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `yii2advanced`
+-- Database: `yunjianyi`
 --
 
 -- --------------------------------------------------------
@@ -52,15 +52,14 @@ CREATE TABLE IF NOT EXISTS `menu` (
 
 INSERT INTO `menu` (`id`, `name`, `route`, `order`, `data`) VALUES
 (3, '菜单管理', '/menu/index', 20, '<i class="fa fa-tags"></i>'),
-(4, '主题管理', '/topic/index', 1, '<i class="fa fa-pencil"></i>'),
-(5, '回复管理', '/reply/index', 2, '<i class="fa fa-reply"></i>'),
+(4, '建议管理', '/topic/index', 1, '<i class="fa fa-pencil"></i>'),
+(5, '回复管理', '/reply/index', 4, '<i class="fa fa-reply"></i>'),
 (6, '用户管理', '/user/index', 3, '<i class="fa fa-user"></i>'),
 (7, '节点管理', '/node/index', 4, '<i class="fa fa-tags"></i>'),
 (8, 'TAB管理', '/tab/index', 5, '<i class="fa fa-navicon"></i>'),
-(9, '页面管理', '/page/index', 6, '<i class="fa fa-server"></i>'),
 (10, '清除缓存', '/site/clean-cache', 100, '<i class="fa fa-trash"></i>'),
 (12, 'TAB右侧菜单', '/tab-nav/index', 19, '<i class="fa fa-server"></i>'),
-(13, '主题正文管理', '/topic-content/index', 4, '<i class="fa fa-pencil"></i>'),
+(13, '建议正文管理', '/topic-content/index', 2, '<i class="fa fa-pencil"></i>'),
 (14, '节点广告管理', '/node-ad/index', 5, '<i class="fa fa-buysellads"></i>'),
 (15, 'tab广告管理', '/tab-ad/index', 5, '<i class="fa fa-buysellads"></i>'),
 (16, '节点推荐链接管理', '/node-link/index', 5, '<i class="fa fa-buysellads"></i>'),
@@ -126,31 +125,11 @@ CREATE TABLE IF NOT EXISTS `notice` (
   `topic_id` int(11) NOT NULL COMMENT '主题id',
   `from_user_id` int(11) NOT NULL COMMENT '来自用户',
   `to_user_id` int(11) NOT NULL COMMENT '传至用户',
-  `msg` text NOT NULL COMMENT '消息内容',
+  `msg` text COMMENT '消息内容',
   `is_read` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已读',
   `type` tinyint(1) DEFAULT NULL COMMENT '1:评论;2:评论@;3:关注了主题',
   `created` int(11) NOT NULL COMMENT '创建时间'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `page`
---
-
-CREATE TABLE IF NOT EXISTS `page` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `route` varchar(30) NOT NULL COMMENT '路由',
-  `title` varchar(50) NOT NULL COMMENT '页面标题',
-  `content` text NOT NULL COMMENT '页面内容'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- 转存表中的数据 `page`
---
-
-INSERT INTO `page` (`id`, `route`, `title`, `content`) VALUES
-(1, 'about', '关于', 'V2SEX，一个技术宅的专属社区。');
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -224,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `topic` (
   `click` int(11) NOT NULL DEFAULT '0' COMMENT '点击数',
   `follow` int(11) NOT NULL DEFAULT '0' COMMENT '收藏人数',
   `reply` int(11) NOT NULL DEFAULT '0' COMMENT '回复数',
-  `last_reply_user` int(11) DEFAULT NULL COMMENT '最后回复',
+  `last_reply_user` varchar(255) DEFAULT NULL COMMENT '最后回复',
   `last_reply_time` int(11) DEFAULT NULL COMMENT '最后回复时间',
   `updated_at` int(11) NOT NULL COMMENT '最后更新',
   `created` int(11) NOT NULL COMMENT '创建时间'
@@ -262,9 +241,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `role` smallint(6) NOT NULL DEFAULT '10',
   `status` smallint(6) NOT NULL DEFAULT '10',
   `email_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '邮箱激活',
-  `homepage` varchar(200) DEFAULT NULL COMMENT '个人主页',
   `desc` varchar(200) DEFAULT NULL COMMENT '一句话介绍',
-  `area` varchar(45) DEFAULT NULL COMMENT '所在地',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -273,8 +250,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- 转存表中的数据 `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `email_verify_token`, `avatar`, `role`, `status`, `email_status`, `homepage`, `desc`, `area`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '85e7ahcThR1Btqu-wqfouYVIBfHwtd3a', '$2y$13$F9n7tFBSOy35PjDZe7hHYOS/h4omRZlGxYpUGPrdANV5fB1CC0qL.', NULL, 'admin@yourdomain.com', 'h_DDbTznUkIkjqO8JRRTszUrkHtzwvwC_1435751017', 'default.png', 20, 1, 1, 'http://v2sex.com/', '资深AV爱好者，收藏了50T的av，每天都要下载av。', '深圳', 1435749537, 1436710272);
+INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `email_verify_token`, `avatar`, `role`, `status`, `email_status`, `desc`, `created_at`, `updated_at`) VALUES
+(1, 'admin', '85e7ahcThR1Btqu-wqfouYVIBfHwtd3a', '$2y$13$F9n7tFBSOy35PjDZe7hHYOS/h4omRZlGxYpUGPrdANV5fB1CC0qL.', NULL, 'admin@yourdomain.com', 'h_DDbTznUkIkjqO8JRRTszUrkHtzwvwC_1435751017', 'default.png', 20, 1, 1, 'yunjianyi', 1435749537, 1436710272);
 
 --
 -- Indexes for dumped tables
@@ -316,19 +293,15 @@ ALTER TABLE `node_link`
 -- Indexes for table `notice`
 --
 ALTER TABLE `notice`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `page`
---
-ALTER TABLE `page`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `to_user_id` (`to_user_id`,`is_read`);
 
 --
 -- Indexes for table `reply`
 --
 ALTER TABLE `reply`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `topic_id` (`topic_id`);
 
 --
 -- Indexes for table `tab`
@@ -395,12 +368,7 @@ ALTER TABLE `node_link`
 -- AUTO_INCREMENT for table `notice`
 --
 ALTER TABLE `notice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `page`
---
-ALTER TABLE `page`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `reply`
 --
@@ -441,6 +409,12 @@ ALTER TABLE `user`
 ALTER TABLE `node`
   ADD CONSTRAINT `node_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `node` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `node_ibfk_2` FOREIGN KEY (`tab_id`) REFERENCES `tab` (`id`);
+
+--
+-- 限制表 `reply`
+--
+ALTER TABLE `reply`
+  ADD CONSTRAINT `reply_ibfk_1` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`) ON DELETE CASCADE;
 
 --
 -- 限制表 `topic_content`

@@ -34,7 +34,7 @@ use \backend\models\Menu;
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => $item,
 //                'items' => [
-//                    ['label' => '<i class="fa fa-pencil"></i><span>主题管理</span>', 'url' => ['/topic/index']],
+//                    ['label' => '<i class="fa fa-pencil"></i><span>建议管理</span>', 'url' => ['/topic/index']],
 //                    ['label' => '<i class="fa fa-reply"></i><span>回复管理</span>', 'url' => ['/reply/index']],
 //                    ['label' => '<i class="fa fa-user"></i><span>用户管理</span>', 'url' => ['/user/index']],
 //                    ['label' => '<i class="fa fa-tags"></i><span>节点管理</span>', 'url' => ['/node/index']],

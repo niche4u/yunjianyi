@@ -6,17 +6,16 @@ use common\models\Topic;
 use common\models\User;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use common\models\LoginForm;
 use yii\filters\VerbFilter;
 
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends BackendController
 {
-    public $title = 'v2sex';
-    public $description = 'v2sex';
+    public $title = '云建议';
+    public $description = '云建议';
 
     /**
      * @inheritdoc
@@ -64,7 +63,7 @@ class SiteController extends Controller
         //今天注册用户
         $model['userToday'] = User::find()->where(['between', 'created_at', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400])->count();
 
-        //今天主题
+        //今天建议
         $model['topicToday'] = Topic::find()->where(['between', 'created', strtotime(date('Y-m-d', time())), strtotime(date('Y-m-d', time())) + 86400])->count();
 
         //今天回复
@@ -73,7 +72,7 @@ class SiteController extends Controller
         //7天内注册用户
         $model['user7day'] = User::find()->where(['between', 'created_at', strtotime(date('Y-m-d', time())) - 86400 * 7, strtotime(date('Y-m-d', time()))])->count();
 
-        //7天内主题
+        //7天内建议
         $model['topic7day'] = Topic::find()->where(['between', 'created', strtotime(date('Y-m-d', time())) - 86400 * 7, strtotime(date('Y-m-d', time()))])->count();
 
         //7天内回复
@@ -82,7 +81,7 @@ class SiteController extends Controller
         //30天内注册用户
         $model['user30day'] = User::find()->where(['between', 'created_at', strtotime(date('Y-m-d', time())) - 86400 * 30, strtotime(date('Y-m-d', time()))])->count();
 
-        //30天内主题
+        //30天内建议
         $model['topic30day'] = Topic::find()->where(['between', 'created', strtotime(date('Y-m-d', time())) - 86400 * 30, strtotime(date('Y-m-d', time()))])->count();
 
         //30天内回复

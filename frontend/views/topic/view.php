@@ -38,116 +38,114 @@ $agent = \common\components\Helper::agent();
             <div class="header topic">
                 <div class="pull-right">
                     <?php if($agent == 'is_iphone' || $agent == 'is_android'):?>
-                    <a href="/member/<?= $model->user->username?>"><img src="<?= $model->user->avatar48?>" class="img-rounded" style="width: 48px;height: 48px"></a>
+                        <a href="/member/<?= $model->user->username?>"><img src="<?= $model->user->avatar48?>" class="img-rounded" style="width: 48px;height: 48px"></a>
                     <?php else:?>
-                    <a href="/member/<?= $model->user->username?>"><img src="<?= $model->user->avatar80?>" class="img-rounded"></a>
+                        <a href="/member/<?= $model->user->username?>"><img src="<?= $model->user->avatar80?>" class="img-rounded"></a>
                     <?php endif?>
                 </div>
                 <?= $this->render('@views/weight/breadcrumbs.php', ['params' => $this->params])?>
-                <h1><?= Html::encode($model->title)?></h1>
+                <h1><?= $model->title?></h1>
                 <aside>
                     <small>
                         <a href="/member/<?= $model->user->username?>"><?= $model->user->username?></a>
                         · <?= Yii::$app->formatter->asRelativeTime($model->created)?> · <?= $model->click?> 次点击
                     </small>
                     <?php if($model->user_id == Yii::$app->user->id && time() - $model->created > 3600):?>
-                    · <a href="/topic/append/<?= $model->id?>" class="node">附加</a>
+                        · <a href="/topic/append/<?= $model->id?>" class="node">附加</a>
                     <?php endif?>
                 </aside>
             </div>
 
             <?php if(!empty($model->content->content)):?>
-            <article class="topic-body markdown-content">
-                <?= \frontend\widgets\Alert::widget() ?>
-                <?= $model->content->content?>
-            </article>
+                <article class="topic-body markdown-content">
+                    <?= \frontend\widgets\Alert::widget() ?>
+                    <?php echo $model->content->content?>
+                </article>
             <?php endif?>
 
             <?php if(!empty($model->append)):?>
                 <?php $k = 1?>
                 <?php foreach($model->append as $a):?>
-                <div class="mt10 ml15"><small>第 <?= $k?> 条附言 · <?= Yii::$app->formatter->asRelativeTime($a->created)?></small></div>
-                <article class="topic-body markdown-content">
-                    <?= $a->content?>
-                </article>
+                    <div class="mt10 ml15"><small>第 <?= $k?> 条附言 · <?= Yii::$app->formatter->asRelativeTime($a->created)?></small></div>
+                    <article class="topic-body markdown-content">
+                        <?= $a->content?>
+                    </article>
                     <?php $k++?>
                 <?php endforeach?>
             <?php endif?>
 
             <div class="topic-footer">
                 <div class="pull-right"><small><?= $model->click?> 次点击 &nbsp;&nbsp; <?= $model->follow?> 人收藏</small></div>
-                <aside>
+                <aside id="Follow">
                     <small>
                         <?php if(!Yii::$app->user->isGuest):?>
-                        <?php if(\common\models\Follow::findOne(['user_id' => Yii::$app->user->id, 'follow_id' => $model->id, 'type' => 3]) === null):?>
-                            <a href="javascript:;" onclick="location.href = '/follow/do/3/<?= $model->id?>?next=/topic/<?= $model->id?>';">加入收藏</a>
-                        <?php else:?>
-                            <a href="javascript:;" onclick="location.href = '/follow/undo/3/<?= $model->id?>?next=/topic/<?= $model->id?>';">取消收藏</a>
-                        <?php endif?>
+                            <?php if(\common\models\Follow::findOne(['user_id' => Yii::$app->user->id, 'follow_id' => $model->id, 'type' => 3]) === null):?>
+                                <a href="javascript:;" onclick="location.href = '/follow/do/3/<?= $model->id?>?next=/topic/<?= $model->id?>#Follow';">加入收藏</a>
+                            <?php else:?>
+                                <a href="javascript:;" onclick="location.href = '/follow/undo/3/<?= $model->id?>?next=/topic/<?= $model->id?>#Follow';">取消收藏</a>
+                            <?php endif?>
                         <?php endif?>
                     </small></aside>
             </div>
         </section>
         <?php if($model->reply > 0):?>
-        <section class="mt20" id="Reply">
-            <div class="block-header">
-                <?= $model->reply?> 回复 | 直到 <?= Yii::$app->formatter->asRelativeTime($model->last_reply_time)?>
-            </div>
-            <?php
-            $page = Yii::$app->request->get('page');
-            $floor = ((empty($page) ? 1 : $page) - 1) * Yii::$app->params['pageSize'] + 1?>
-            <?php foreach($replyList as $c):?>
-                <?php $userInfo = \common\models\User::Info($c->user_id);?>
-            <article class="topic-reply">
-                <div class="topic-reply-avatar pull-left">
-                    <?php if($agent == 'is_iphone' || $agent == 'is_android'):?>
-                        <img class="img-rounded" src="<?= $userInfo['avatar24']?>">
-                    <?php else:?>
-                        <img class="img-rounded" src="<?= $userInfo['avatar48']?>">
-                    <?php endif?>
+            <section class="mt20" id="Reply">
+                <div class="block-header">
+                    <small><?= $model->reply?> 回复 | 直到 <?= Yii::$app->formatter->asRelativeTime($model->last_reply_time)?></small>
                 </div>
-                <?php if($agent == 'is_iphone' || $agent == 'is_android'):?>
-                <div class="topic-reply-body" style="margin-left: 36px;">
-                <?php else:?>
-                    <div class="topic-reply-body">
-                <?php endif?>
-                    <div class="topic-reply-author">
-                        <aside><small><strong><a href="/member/<?= $userInfo['username']?>"><?= $userInfo['username']?></a></strong>&nbsp;&nbsp;<?php if($userInfo['role'] == 20):?><span class="badge">Mod</span>&nbsp;&nbsp;<?php endif?><?= Yii::$app->formatter->asRelativeTime($c->created)?></small>
-                        <div class="pull-right">
-                           <?php if(Yii::$app->user->id):?> <span><small><a href="javascript:;" class="reply_link" data_id="<?= $userInfo['username']?>"><i class="glyphicon glyphicon-share-alt"></i></a></small></span><?php endif?>
-                            <span class="badge"><?php echo $floor?></span>
+                <?php
+                $page = Yii::$app->request->get('page');
+                $floor = ((empty($page) ? 1 : $page) - 1) * Yii::$app->params['pageSize'] + 1?>
+                <?php foreach($replyList as $c):?>
+                    <article class="topic-reply">
+                        <?php if($this->context->agent == 'is_iphone' || $this->context->agent == 'is_android'):?>
+                        <div class="topic-reply-avatar pull-left">
+                            <img class="img-rounded" src="<?= Yii::$app->params['avatarUrl'].'/24/'.$c['avatar']?>">
                         </div>
-                        </aside>
-                    </div>
-                    <div class="mt3"><p><?= $c->content?></p></div>
-                    <div class="clearfix"></div>
-                </div>
-            </article>
-                <?php $floor++;?>
-            <?php endforeach?>
-            <article>
-                <?= \yii\widgets\LinkPager::widget([
-                    'pagination'=>$pagination,
-                ]);?>
-            </article>
-        </section>
+                        <div class="topic-reply-body" style="margin-left: 36px;">
+                            <?php else:?>
+                            <div class="topic-reply-avatar pull-left">
+                                <img class="img-rounded" src="<?= Yii::$app->params['avatarUrl'].'/48/'.$c['avatar']?>">
+                            </div>
+                            <div class="topic-reply-body">
+                                <?php endif?>
+                                <div class="topic-reply-author">
+                                    <aside><small><strong><a href="/member/<?= $c['username']?>"><?= $c['username']?></a></strong>&nbsp;&nbsp;<?php if($c['role'] == 20):?><span class="badge">Mod</span>&nbsp;&nbsp;<?php endif?><?= Yii::$app->formatter->asRelativeTime($c['created'])?></small>
+                                        <div class="pull-right">
+                                            <?php if(Yii::$app->user->id):?> <span><small><a href="javascript:;" class="reply_link" data_id="<?= $c['username']?>"><i class="glyphicon glyphicon-share-alt"></i></a></small></span><?php endif?>
+                                            <span class="badge"><?php echo $floor?></span>
+                                        </div>
+                                    </aside>
+                                </div>
+                                <div class="mt3 markdown-content"><?= \common\components\Helper::autoLink(\yii\helpers\HtmlPurifier::process(\yii\helpers\Markdown::process($c['content'], 'gfm-comment')))?></div>
+                                <div class="clearfix"></div>
+                            </div>
+                    </article>
+                    <?php $floor++;?>
+                <?php endforeach?>
+                <article>
+                    <?= \yii\widgets\LinkPager::widget([
+                        'pagination'=>$pagination,
+                    ]);?>
+                </article>
+            </section>
         <?php endif?>
 
         <section>
             <div class="block-header">
-                回复<a class="pull-right" href="#Top">回到顶部</a>
+                <small>回复<a class="pull-right" href="#Top">回到顶部</a></small>
             </div>
             <div class="block-content">
                 <?php if(!Yii::$app->user->isGuest):?>
                     <?php if(Yii::$app->user->identity->email_status == 1):?>
-                    <?php $form = ActiveForm::begin(['id' => 'reply-form']); ?>
-                    <?= Html::activeHiddenInput($reply, 'topic_id', ['value' => $model->id])?>
-                    <?= $form->field($reply, 'content')->textarea(['rows' => 6])->label(false) ?>
-                    <div class="form-group">
-                        <?= Html::submitButton('提交回复', ['class' => 'btn btn-success', 'name' => 'reply-button']) ?>
-                        <?= Html::button('预览回复', ['class' => 'btn btn-primary preview']) ?>
-                    </div>
-                    <?php ActiveForm::end(); ?>
+                        <?php $form = ActiveForm::begin(['id' => 'reply-form']); ?>
+                        <?= Html::activeHiddenInput($reply, 'topic_id', ['value' => $model->id])?>
+                        <?= $form->field($reply, 'content')->textarea(['rows' => 6])->label(false) ?>
+                        <div class="form-group">
+                            <?= Html::submitButton('提交回复', ['class' => 'btn btn-success', 'name' => 'reply-button']) ?>
+                            <?= Html::button('预览回复', ['class' => 'btn btn-primary preview']) ?>
+                        </div>
+                        <?php ActiveForm::end(); ?>
                     <?php else:?>
                         您需要激活邮箱后才可以回复。
                     <?php endif?>

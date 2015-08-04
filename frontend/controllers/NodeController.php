@@ -3,16 +3,16 @@ namespace frontend\controllers;
 
 use common\models\Node;
 use common\models\Topic;
+use common\models\User;
 use Yii;
 use yii\data\Pagination;
-use yii\helpers\ArrayHelper;
-use yii\web\Controller;
+use yii\db\Query;
 use yii\web\NotFoundHttpException;
 
 /**
  * Node controller
  */
-class NodeController extends Controller
+class NodeController extends FrontendController
 {
     public $title = '';
     public $description = '';
@@ -44,8 +44,13 @@ class NodeController extends Controller
 
         $this->title = $node->name.' - '.Yii::$app->name;
         $this->description = '';
+        $this->canonical = Yii::$app->params['domain'].'node/'.$nodeName;
 
-        $query = Topic::find()->where(['node_id' => $node->id]);
+        $query = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')
+            ->from(Topic::tableName())
+            ->leftJoin(Node::tableName(), 'node.id = topic.node_id')
+            ->leftJoin(User::tableName(), 'user.id = topic.user_id')
+            ->where(['node.id' => $node->id]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()

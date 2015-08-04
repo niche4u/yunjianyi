@@ -22,6 +22,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'need_login')->dropDownList(['1' => '是', '0' => '否']) ?>
 
+    <?= $form->field($model, 'status')->dropDownList(['1' => '启用', '0' => '禁用']) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

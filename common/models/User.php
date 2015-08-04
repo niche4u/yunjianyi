@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\Query;
 use yii\helpers\Html;
 use yii\web\IdentityInterface;
 
@@ -22,9 +23,7 @@ use yii\web\IdentityInterface;
  * @property integer $role
  * @property integer $status
  * @property integer $email_status
- * @property string $homepage
  * @property string $desc
- * @property string $area
  * @property integer $updated_at
  * @property integer $created_at
  */
@@ -64,8 +63,8 @@ class User extends ActiveRecord implements IdentityInterface
             [['role', 'status', 'email_status', 'updated_at', 'created_at'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email', 'email_verify_token'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
-            [['avatar', 'homepage', 'desc'], 'string', 'max' => 100],
-            [['avatar', 'area'], 'string', 'max' => 30],
+            [['avatar', 'desc'], 'string', 'max' => 100],
+            [['avatar'], 'string', 'max' => 30],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             [['email'], 'unique'],
@@ -243,9 +242,7 @@ class User extends ActiveRecord implements IdentityInterface
             'role' => '角色',
             'status' => '状态',
             'email_status' => '邮箱激活',
-            'homepage' => '个人主页',
             'desc' => '个人介绍',
-            'area' => '所在地',
             'updated_at' => '最后更新',
             'created_at' => '创建时间',
         ];
@@ -256,7 +253,15 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getTopicList()
     {
-        return $this->hasMany(Topic::className(), ['user_id' => 'id'])->orderBy(['id' => SORT_DESC])->limit(10);
+        return (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')
+            ->from(Topic::tableName().' topic')
+            ->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')
+            ->leftJoin(User::tableName().' user', 'user.id = topic.user_id')
+            ->where(['node.is_hidden' => 0])
+            ->andWhere(['topic.user_id' => $this->id])
+            ->orderBy(['id' => SORT_DESC])
+            ->limit(10)
+            ->all();
     }
 
     /**
@@ -264,7 +269,16 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getReplyList()
     {
-        return $this->hasMany(Reply::className(), ['user_id' => 'id'])->orderBy(['id' => SORT_DESC])->limit(10);
+        return (new Query())->select('reply.*, topic.title, node.enname, node.name, user.username, user.avatar')
+            ->from(Reply::tableName())
+            ->leftJoin(Topic::tableName(), 'topic.id = reply.topic_id')
+            ->leftJoin(Node::tableName(), 'node.id = topic.node_id')
+            ->leftJoin(User::tableName().' user', 'user.id = reply.user_id')
+            ->where(['node.is_hidden' => 0])
+            ->andWhere(['reply.user_id' => $this->id])
+            ->orderBy(['id' => SORT_DESC])
+            ->limit(10)
+            ->all();
     }
 
     public function getAvatar80()
@@ -311,9 +325,14 @@ class User extends ActiveRecord implements IdentityInterface
         return $userInfo;
     }
 
-    static function Count()
+    static function UserCount()
     {
-        return User::find()->count();
+        if(!$UserCount = Yii::$app->cache->get('UserCount'))
+        {
+            $UserCount = User::find()->count();
+            Yii::$app->cache->set('UserCount', $UserCount, 86400);
+        }
+        return $UserCount;
     }
 
     /**

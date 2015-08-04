@@ -1,7 +1,5 @@
 <?php
 
-use yii\helpers\Markdown;
-
 $NodeAd = \common\models\NodeAd::NodeAd($node);
 
 ?>

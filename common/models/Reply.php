@@ -48,7 +48,7 @@ class Reply extends \yii\db\ActiveRecord
         return [
             'id' => '回复ID',
             'user_id' => '回复者',
-            'topic_id' => '主题',
+            'topic_id' => '建议',
             'content' => '回复内容',
             'created' => '创建时间',
         ];
@@ -67,6 +67,7 @@ class Reply extends \yii\db\ActiveRecord
         $topic->updated_at = time();
         $topic->last_reply_user = Yii::$app->user->identity->username;
         $rst = $topic->update();
+        Yii::$app->cache->delete('HotTopic8');
 
         //给用户发回复或者@通知,回复自己的不通知
         if($rst && Yii::$app->user->id != $topic->user_id)
@@ -106,12 +107,6 @@ class Reply extends \yii\db\ActiveRecord
         return parent::afterSave($insert, $changedAttributes);
     }
 
-    public function afterFind()
-    {
-        $this->content  = Helper::autoLink(HtmlPurifier::process(Markdown::process($this->content, 'gfm-comment')));
-        parent::afterFind();
-    }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -125,9 +120,19 @@ class Reply extends \yii\db\ActiveRecord
         return $this->hasOne(Topic::className(), ['id' => 'topic_id']);
     }
 
-    static function Count()
+    static function ReplyCount()
     {
-        return Reply::find()->count();
+        if(!$ReplyCount = Yii::$app->cache->get('ReplyCount'))
+        {
+            $ReplyCount = Reply::find()->count();
+            Yii::$app->cache->set('ReplyCount', $ReplyCount, 86400);
+        }
+        return $ReplyCount;
     }
 
+    public function afterFind()
+    {
+        $this->content  = Helper::autoLink(HtmlPurifier::process(Markdown::process($this->content, 'gfm-comment')));
+        parent::afterFind();
+    }
 }

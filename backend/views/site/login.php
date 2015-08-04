@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
-$this->title = 'Sign In';
+$this->title = '云建议后台登陆';
 
 $fieldOptions1 = [
     'options' => ['class' => 'form-group has-feedback'],

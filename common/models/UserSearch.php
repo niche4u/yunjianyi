@@ -5,7 +5,6 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\User;
 
 /**
  * UserSearch represents the model behind the search form about `common\models\User`.
@@ -19,7 +18,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'role', 'status', 'email_status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'avatar', 'homepage', 'desc', 'area'], 'safe'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'avatar', 'desc'], 'safe'],
         ];
     }
 
@@ -71,9 +70,7 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'avatar', $this->avatar])
-            ->andFilterWhere(['like', 'homepage', $this->homepage])
-            ->andFilterWhere(['like', 'desc', $this->desc])
-            ->andFilterWhere(['like', 'area', $this->area]);
+            ->andFilterWhere(['like', 'desc', $this->desc]);
 
         return $dataProvider;
     }

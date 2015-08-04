@@ -35,7 +35,7 @@ class Notice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['topic_id', 'from_user_id', 'to_user_id', 'msg', 'created'], 'required'],
+            [['topic_id', 'from_user_id', 'to_user_id', 'created'], 'required'],
             [['topic_id', 'from_user_id', 'to_user_id', 'is_read', 'type', 'created'], 'integer'],
             [['msg'], 'string']
         ];
@@ -48,12 +48,12 @@ class Notice extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'topic_id' => '主题id',
+            'topic_id' => '建议id',
             'from_user_id' => '来自用户',
             'to_user_id' => '传至用户',
             'msg' => '消息内容',
             'is_read' => '是否已读',
-            'type' => '1:回复;2:回复@;3:关注了主题',
+            'type' => '1:回复;2:回复@;3:关注了建议',
             'created' => '创建时间',
         ];
     }
@@ -64,8 +64,10 @@ class Notice extends \yii\db\ActiveRecord
      */
     static function Count()
     {
-        $count = Notice::find()->where(['to_user_id' => Yii::$app->user->id, 'is_read' => 0])->count();
-        return empty($count) ? null : $count;
+        $NoticeCount = Notice::find()->where(['to_user_id' => Yii::$app->user->id, 'is_read' => 0])->count();
+        $NoticeCount = empty($NoticeCount) ? null : $NoticeCount;
+
+        return $NoticeCount;
     }
 
     public function afterFind()

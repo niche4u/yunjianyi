@@ -2,7 +2,6 @@
 namespace frontend\controllers;
 
 use common\models\Follow;
-use common\models\Topic;
 use Yii;
 use yii\web\Controller;
 
@@ -25,18 +24,14 @@ class FollowController extends Controller
 
     public function actionDo($type, $follow)
     {
-
-        $model = Follow::findOne(['user_id' => Yii::$app->user->id, 'type' => $type, 'follow_id' => $follow]);
+        $userId = Yii::$app->user->id;
+        $model = Follow::findOne(['user_id' => $userId, 'type' => $type, 'follow_id' => $follow]);
         if($model === null) {
             $model = new Follow();
-            $model->user_id = Yii::$app->user->id;
+            $model->user_id = $userId;
             $model->follow_id = $follow;
             $model->type = $type;
-            if($model->save() && $type == 3) {
-                $topic = Topic::findOne($follow);
-                $topic->follow = $topic->follow + 1;
-                $topic->save();
-            }
+            $model->save();
         }
         $next = Yii::$app->request->get('next');
         if(isset($next)) return $this->redirect($next);
@@ -45,13 +40,10 @@ class FollowController extends Controller
 
     public function actionUndo($type, $follow)
     {
-        $model = Follow::findOne(['user_id' => Yii::$app->user->id, 'type' => $type, 'follow_id' => $follow]);
+        $userId = Yii::$app->user->id;
+        $model = Follow::findOne(['user_id' => $userId, 'type' => $type, 'follow_id' => $follow]);
         if($model !== null) {
-            if($model->delete() && $type == 3) {
-                $topic = Topic::findOne($follow);
-                $topic->follow = $topic->follow - 1;
-                $topic->save();
-            }
+            $model->delete();
         }
         $next = Yii::$app->request->get('next');
         if(isset($next)) return $this->redirect($next);

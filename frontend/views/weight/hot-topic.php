@@ -1,7 +1,7 @@
 <?php $HotTopic = \common\models\Topic::HotTopic();?>
 <?php if(!empty($HotTopic)):?>
 <section>
-    <div class="block-header">今日热门主题</div>
+    <div class="block-header"><small>今日热门建议</small></div>
     <div class="mt5"></div>
     <?php foreach ($HotTopic as $topic):?>
         <article class="sidebar block-hot-topic">

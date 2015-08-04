@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\imagine\Image;
 use yii\web\UploadedFile;
@@ -147,7 +148,7 @@ class Node extends \yii\db\ActiveRecord
     }
 
     /**
-     * 获取节点下面的主题
+     * 获取节点下面的建议
      * @return \yii\db\ActiveQuery
      */
     public function getTopic()
@@ -278,5 +279,73 @@ class Node extends \yii\db\ActiveRecord
             return $this->save();
         }
         return false;
+    }
+
+    /**
+     * 获取子节点
+     * @param $parent_id
+     * @param bool $onlyId
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    static function SubNode($parent_id, $onlyId = true)
+    {
+        if($onlyId) {
+            if(!$NodeSubNode = Yii::$app->cache->get('NodeSubNodeId'.$parent_id))
+            {
+                $NodeSubNode = ArrayHelper::map(Node::find()->select('id')->where(['parent_id' => $parent_id])->asArray('id')->all(), 'id', 'id');
+                Yii::$app->cache->set('NodeSubNodeId'.$parent_id, $NodeSubNode, 0);
+            }
+        }
+        else {
+            if(!$NodeSubNode = Yii::$app->cache->get('NodeSubNode'.$parent_id))
+            {
+                $NodeSubNode = (new Query())->from(Node::tableName())->select('node.enname, node.name, node.logo')->where(['parent_id' => $parent_id])->all();
+                Yii::$app->cache->set('NodeSubNode'.$parent_id, $NodeSubNode, 0);
+            }
+        }
+
+        return $NodeSubNode;
+    }
+
+    /**
+     * 获取全部节点
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    static function AllNode()
+    {
+
+        if(!$NodeAllNode = Yii::$app->cache->get('NodeAllNode'))
+        {
+            $NodeAllNode = ArrayHelper::map(Node::find()->select('id, name')->asArray()->all(), 'id', 'name');
+            Yii::$app->cache->set('NodeAllNode', $NodeAllNode, 0);
+        }
+
+        return $NodeAllNode;
+    }
+
+    /**
+     * 获取相关节点
+     * @param $node_id
+     * @param $parent_id
+     * @param bool $onlyId
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    static function RelatedNode($node_id, $parent_id, $onlyId = true)
+    {
+        if($onlyId) {
+            if(!$NodeRelatedNode = Yii::$app->cache->get('NodeRelatedNodeId'.$node_id))
+            {
+                $NodeRelatedNode = ArrayHelper::map(Node::find()->select('id')->where(['parent_id' => $parent_id])->andWhere('id != '.$node_id)->asArray('id')->all(), 'id', 'id');
+                Yii::$app->cache->set('NodeRelatedNodeId'.$node_id, $NodeRelatedNode, 0);
+            }
+        }
+        else {
+            if(!$NodeRelatedNode = Yii::$app->cache->get('NodeRelatedNode'.$node_id))
+            {
+                $NodeRelatedNode = (new Query())->from(Node::tableName())->select('enname, name, logo')->where(['parent_id' => $parent_id])->andWhere('id != '.$node_id)->all();
+                Yii::$app->cache->set('NodeRelatedNode'.$node_id, $NodeRelatedNode, 0);
+            }
+        }
+        return $NodeRelatedNode;
     }
 }

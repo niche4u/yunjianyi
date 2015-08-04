@@ -7,7 +7,6 @@ use Yii;
 use common\models\NodeAd;
 use common\models\NodeAdSearch;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\grid\GridView;
@@ -15,7 +14,7 @@ use kartik\grid\GridView;
 /**
  * NodeAdController implements the CRUD actions for NodeAd model.
  */
-class NodeAdController extends Controller
+class NodeAdController extends BackendController
 {
     public $title = '节点广告管理';
     public $description = '节点广告管理';

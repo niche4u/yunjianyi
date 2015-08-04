@@ -18,6 +18,14 @@ body {
 #Top .navbar {
     margin-bottom: 0px;
 }
+#Top .avatar {
+    padding: 6px 10px 6px 10px;
+}
+#Top .avatar img {
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+}
 #Wrapper {
     min-height: 100%;
     height: auto;
@@ -47,6 +55,9 @@ body {
     text-align: left;
     border-bottom: 1px solid #EEEEEE;
     background: #f9f9f9;
+}
+.dropdown-menu .divider {
+    margin: 5px 0;
 }
 #Tabs.no-sub-nav {
     border-bottom: 1px solid #EEEEEE;
@@ -93,7 +104,7 @@ body {
     text-decoration: none;
 }
 .navbar {
-    min-height: 45px;
+    min-height: 46px;
 }
 .navbar-brand {
     padding: 12px;
@@ -114,7 +125,7 @@ body {
 .nav > li > a {
     position: relative;
     display: block;
-    padding: 12px 10px;
+    padding: 12px 10px 13px;
 }
 section {
     border-radius: 3px;
@@ -172,7 +183,6 @@ hr {
     background-color: #e2e2e2;
     margin-bottom: 1em;
 }
-
 pre {
     font-family: 'Consolas', 'Panic Sans', 'Consolas', 'DejaVu Sans Mono',
     'Bitstream Vera Sans Mono', 'Menlo', 'Microsoft Yahei', monospace;
@@ -185,12 +195,13 @@ pre {
     overflow-x: auto;
     overflow-y: auto;
 }
-
 pre a {
     color: inherit;
     text-decoration: underline;
 }
-
+:active {
+    outline: 0 none !important;
+}
 code {
     background-color: #f8f8f8;
     padding: 1px 2px 1px 2px;
@@ -327,7 +338,7 @@ small {
 a.small:hover {
     text-decoration: none;
 }
-/*今日热议主题*/
+/*今日热议建议*/
 article.sidebar {
     padding: 10px 15px;
     text-align: left;

@@ -7,7 +7,6 @@ use Yii;
 use common\models\TabAd;
 use common\models\TabAdSearch;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\grid\GridView;
@@ -15,7 +14,7 @@ use kartik\grid\GridView;
 /**
  * TabAdController implements the CRUD actions for TabAd model.
  */
-class TabAdController extends Controller
+class TabAdController extends BackendController
 {
     public $title = 'tab广告管理';
     public $description = 'tab广告管理';

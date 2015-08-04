@@ -5,14 +5,13 @@ namespace backend\controllers;
 use Yii;
 use common\models\TabNav;
 use common\models\TabNavSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * TabNavController implements the CRUD actions for TabNav model.
  */
-class TabNavController extends Controller
+class TabNavController extends BackendController
 {
     public $title = 'TAB右侧菜单';
     public $description = 'TAB右侧菜单';

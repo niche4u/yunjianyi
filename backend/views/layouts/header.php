@@ -9,8 +9,6 @@ use yii\bootstrap\NavBar;
 
 <header class="main-header">
 
-    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
-
     <nav class="navbar navbar-static-top" role="navigation">
 
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -35,7 +33,7 @@ use yii\bootstrap\NavBar;
                                  alt="User Image"/>
 
                             <p>
-                                <?= Yii::$app->user->identity->username?>   <?= Yii::$app->user->identity->area?>
+                                <?= Yii::$app->user->identity->username?>
                                 <small>第 <?= Yii::$app->user->identity->id?> 号会员，加入为 <?= date('Y-m-d H:i:s', Yii::$app->user->identity->created_at)?></small>
                             </p>
                         </li>

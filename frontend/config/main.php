@@ -8,7 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'name' => 'V2SEX',
+    'name' => '云建议',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
@@ -35,7 +35,7 @@ return [
         ],
         'assetManager' => [
             'basePath' => '@webroot/assets',
-            //'baseUrl' => '//cdn.com/assets', //使用cdn
+            //'baseUrl' => '//cdn.yunjianyi.com/assets', //使用cdn
             'baseUrl' => '/assets',
             'bundles' => [
             ],
@@ -47,7 +47,7 @@ return [
             // Disable r= routes
             'enablePrettyUrl' => true,
             'rules' => array(
-                '<alias:recent|about|contact|search>' => 'site/<alias>',
+                '<alias:recent|search>' => 'site/<alias>',
                 '<alias:setting|login|logout|signup>' => 'account/<alias>',
                 'create' => 'topic/create',
                 'create/<node:\w+>' => 'topic/create',

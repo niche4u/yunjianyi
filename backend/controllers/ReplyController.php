@@ -8,7 +8,6 @@ use Yii;
 use backend\models\Reply;
 use common\models\ReplySearch;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -16,7 +15,7 @@ use yii\filters\AccessControl;
 /**
  * ReplyController implements the CRUD actions for Reply model.
  */
-class ReplyController extends Controller
+class ReplyController extends BackendController
 {
     public $title = '回复管理';
     public $description = '回复管理';

@@ -7,7 +7,6 @@ use Yii;
 use common\models\NodeLink;
 use common\models\NodeLinkSearch;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\grid\GridView;
@@ -15,7 +14,7 @@ use kartik\grid\GridView;
 /**
  * NodeLinkController implements the CRUD actions for NodeLink model.
  */
-class NodeLinkController extends Controller
+class NodeLinkController extends BackendController
 {
     public $title = '节点推荐链接管理';
     public $description = '推荐链接管理';

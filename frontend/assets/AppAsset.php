@@ -19,15 +19,15 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-        //'//cdn.com/css/site.css', //使用cdn
+        //'//cdn.yunjianyi.com/css/site.css', //使用cdn
         'css/site.css',
     ];
 
     public $js = [
+        'js/common.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
-        //'\rmrevin\yii\fontawesome\AssetBundle'
     ];
 }

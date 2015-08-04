@@ -1,22 +1,20 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Node;
 use common\models\Reply;
 use common\models\Topic;
 use common\models\User;
 use Yii;
 use yii\data\Pagination;
-use yii\web\Controller;
+use yii\db\Query;
 use yii\web\NotFoundHttpException;
 
 /**
  * Site controller
  */
-class MemberController extends Controller
+class MemberController extends FrontendController
 {
-    public $title = '';
-    public $description = '';
-
     /**
      * @inheritdoc
      */
@@ -33,6 +31,7 @@ class MemberController extends Controller
     {
         $this->title = $username.' - '.Yii::$app->name;
         $this->description = '';
+        $this->canonical = Yii::$app->params['domain'].'member/'.$username;
 
         $model = $this->findModel($username);
         return $this->render('index', ['model' => $model]);
@@ -42,9 +41,17 @@ class MemberController extends Controller
     {
         $this->title = $username.'发布的回复 - '.Yii::$app->name;
         $this->description = '';
+        $this->canonical = Yii::$app->params['domain'].'member/'.$username.'/reply';
 
         $user = $this->findModel($username);
-        $query = Reply::find()->where(['user_id' => $user->id]);
+        $query = (new Query())->select('reply.*, topic.title, node.enname, node.name, user.username, user.avatar')
+            ->from(Reply::tableName())
+            ->leftJoin(Topic::tableName(), 'topic.id = reply.topic_id')
+            ->leftJoin(Node::tableName(), 'node.id = topic.node_id')
+            ->leftJoin(User::tableName(), 'user.id = topic.user_id')
+            ->where(['node.is_hidden' => 0])
+            ->andWhere(['reply.user_id' => $user->id]);
+
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()
@@ -55,11 +62,17 @@ class MemberController extends Controller
 
     public function actionTopic($username)
     {
-        $this->title = $username.'发布的主题 - '.Yii::$app->name;
+        $this->title = $username.'提的建议 - '.Yii::$app->name;
         $this->description = '';
+        $this->canonical = Yii::$app->params['domain'].'member/'.$username.'/topic';
 
         $user = $this->findModel($username);
-        $query = Topic::find()->where(['user_id' => $user->id]);
+        $query = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')
+            ->from(Topic::tableName())
+            ->leftJoin(Node::tableName(), 'node.id = topic.node_id')
+            ->leftJoin(User::tableName(), 'user.id = topic.user_id')
+            ->where(['node.is_hidden' => 0])
+            ->andWhere(['topic.user_id' => $user->id]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()

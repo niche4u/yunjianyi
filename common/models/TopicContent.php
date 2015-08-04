@@ -47,8 +47,8 @@ class TopicContent extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'topic_id' => '主题ID',
-            'content' => '主题正文',
+            'topic_id' => '建议ID',
+            'content' => '正文',
             'is_append' => '是否追加',
             'created' => '创建时间',
         ];

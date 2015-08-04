@@ -1,10 +1,10 @@
-# yunjianyi
+# V2SEX
 
-yunjianyi is A high performance open-source forum software written in Yii2.
+V2SEX is A high performance open-source forum software written in Yii2.
 
 ## Demo Website
 
-[yunjianyi](http://yunjianyi.com/)
+[V2SEX](http://v2sex.com/)
 
 ## Requirements
 
@@ -14,8 +14,8 @@ yunjianyi is A high performance open-source forum software written in Yii2.
 
 ## Install
 ```
-git clone http://github.com/chonder/yunjianyi.git yunjianyi
-cd yunjianyi
+git clone http://github.com/chonder/v2sex.git v2sex
+cd v2sex
 php init
 ```
 Create database yii2advanced
@@ -36,8 +36,8 @@ return [
 
 ## Usage
 
-* Use the URL `http://www.domain.com` point to `yunjianyi/frontend/web/` to access application frontend.
-* Use the URL `http://admin.domain.com` point to `yunjianyi/backend/web/` to access application backend.
+* Use the URL `http://www.domain.com` point to `v2sex/frontend/web/` to access application frontend.
+* Use the URL `http://admin.domain.com` point to `v2sex/backend/web/` to access application backend.
 
 ## Default admin and password
 ```
@@ -56,13 +56,13 @@ adminadmin
 
 ##License
 
-Copyright 2015 yunjianyi (admin@yunjianyi.com)
+Copyright 2015 v2sex (admin@v2sex.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-   http://yunjianyi.com/LICENSE.md
+   http://v2sex.com/LICENSE.md
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,

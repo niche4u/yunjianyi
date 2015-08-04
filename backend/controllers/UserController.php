@@ -6,7 +6,6 @@ use kartik\grid\GridView;
 use Yii;
 use common\models\User;
 use common\models\UserSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -14,7 +13,7 @@ use yii\filters\AccessControl;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends Controller
+class UserController extends BackendController
 {
     public $title = '用户管理';
     public $description = '用户管理';

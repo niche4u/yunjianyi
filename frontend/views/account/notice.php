@@ -57,6 +57,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     </article>
                 <?php endif?>
 
+                <?php if($n->type == 3):?>
+                    <article class="notice">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tbody>
+                            <tr>
+                                <td width="39" align="left" valign="top">
+                                    <a href="/member/<?= $fromUserInfo['username']?>"><img src="<?= $fromUserInfo['avatar24']?>" class="img-rounded" border="0"></a>
+                                </td>
+                                <td valign="middle">
+                                    <small><a href="/member/<?= $fromUserInfo['username']?>"><strong><?= $fromUserInfo['username']?></strong></a> 收藏了你的建议 <a href="/topic/<?= $n->topic_id?>"><?= $topicInfo['title']?></a> </span> &nbsp; <?= Yii::$app->formatter->asRelativeTime($n->created)?></small> <a href="/account/notice-delete/?id=<?= $n->id?>" class="node">删除</a>
+                                    <div class="mt10"></div>
+                                    <div class="notice-content"><?= $n->msg?></div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </article>
+                <?php endif?>
+
             <?php endforeach?>
             <article>
                 <?= \yii\widgets\LinkPager::widget([

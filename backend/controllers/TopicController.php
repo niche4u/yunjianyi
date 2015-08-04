@@ -10,7 +10,6 @@ use common\models\Topic;
 use common\models\TopicSearch;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -19,10 +18,10 @@ use common\models\Search;
 /**
  * TopicController implements the CRUD actions for Topic model.
  */
-class TopicController extends Controller
+class TopicController extends BackendController
 {
-    public $title = '主题管理';
-    public $description = '主题管理';
+    public $title = '建议管理';
+    public $description = '建议管理';
 
     public function behaviors()
     {
@@ -111,7 +110,7 @@ class TopicController extends Controller
 
         $gridColumns[] = [
             'class' => '\kartik\grid\ActionColumn',
-            'template'=>'{view} {update} {delete}',
+            'template'=>'{view} {update}',
             'buttons'=>[
                 'view' => function ($url, $model) {
                     return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', Yii::$app->params['domain'].$url, ['title' => '查看', 'target' => '_blank']);
@@ -166,7 +165,7 @@ class TopicController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -183,6 +182,7 @@ class TopicController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+        Yii::$app->cache->get('topic'.$id);
         $search = Search::findOne($id);
         $search->delete();
         return $this->redirect(['index']);

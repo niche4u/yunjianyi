@@ -10,7 +10,6 @@ use common\models\TopicContentSearch;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\grid\GridView;
@@ -20,10 +19,10 @@ use yii\web\Response;
 /**
  * TopicContentController implements the CRUD actions for TopicContent model.
  */
-class TopicContentController extends Controller
+class TopicContentController extends BackendController
 {
-    public $title = '主题正文管理';
-    public $description = '主题正文管理';
+    public $title = '建议正文管理';
+    public $description = '建议正文管理';
 
     public function behaviors()
     {
@@ -65,7 +64,7 @@ class TopicContentController extends Controller
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => '主题标题'],
+            'filterInputOptions' => ['placeholder' => '建议标题'],
             'format' => 'raw'
         ];
         $gridColumns[] = [
@@ -168,7 +167,7 @@ class TopicContentController extends Controller
         }
         else {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return Helper::autoLink(HtmlPurifier::process(Markdown::process($content, 'gfm-comment')));
+            return HtmlPurifier::process(Markdown::process($content, 'gfm-comment'));
         }
     }
 

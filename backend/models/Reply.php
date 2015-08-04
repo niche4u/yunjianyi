@@ -47,7 +47,7 @@ class Reply extends \yii\db\ActiveRecord
         return [
             'id' => '回复ID',
             'user_id' => '回复者',
-            'topic_id' => '主题',
+            'topic_id' => '建议',
             'content' => '回复内容',
             'created' => '创建时间',
         ];

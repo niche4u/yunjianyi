@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Follow;
+use common\models\Node;
 use common\models\Notice;
 use common\models\Topic;
 use common\models\User;
@@ -12,8 +13,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use yii\base\InvalidParamException;
 use yii\data\Pagination;
-use yii\helpers\ArrayHelper;
-use yii\web\Controller;
+use yii\db\Query;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\AvatarForm;
@@ -23,11 +23,8 @@ use yii\web\NotFoundHttpException;
 /**
  * Account controller
  */
-class AccountController extends Controller
+class AccountController extends FrontendController
 {
-    public $title = '';
-    public $description = '';
-
     /**
      * @inheritdoc
      */
@@ -82,6 +79,7 @@ class AccountController extends Controller
     {
         $this->title = '用户登陆'.' - '.Yii::$app->name;
         $this->description = '';
+        $this->canonical = Yii::$app->params['domain'].'login';
 
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -109,10 +107,12 @@ class AccountController extends Controller
     {
         $this->title = '用户注册'.' - '.Yii::$app->name;
         $this->description = '';
+        $this->canonical = Yii::$app->params['domain'].'signup';
 
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
+                Yii::$app->cache->delete('UserCount');
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
                 }
@@ -174,7 +174,7 @@ class AccountController extends Controller
         $user->email_status = 1;
         $user->removeEmailVerifyToken();
         if($user->save()) {
-            Yii::$app->getSession()->setFlash('success', $user->email.'邮件激活成功！');
+            Yii::$app->getSession()->setFlash('success', "<strong>".$user->email."</strong>".' 邮件激活成功！');
             return $this->goHome();
         }
 
@@ -276,6 +276,7 @@ class AccountController extends Controller
             return $this->redirect('/account/login?next=/account/notice');
         }
         Notice::updateAll(['is_read' => 1], 'is_read = 0 and to_user_id = '.Yii::$app->user->id);
+        Yii::$app->cache->delete('NoticeCount'.Yii::$app->user->id);
         $query = Notice::find()->where(['to_user_id' => Yii::$app->user->id]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
@@ -300,13 +301,17 @@ class AccountController extends Controller
 
     public function actionFollow()
     {
-        $this->title = '我关注的人'.' - '.Yii::$app->name;
+        $this->title = '关注的人提的建议'.' - '.Yii::$app->name;
         $this->description = '';
 
         if (Yii::$app->user->isGuest) {
             return $this->redirect('/account/login?next=/account/follow');
         }
-        $query = Topic::find()->where(['in', 'user_id', ArrayHelper::map(Follow::findAll(['user_id' => Yii::$app->user->id, 'type' => 1]), 'follow_id', 'follow_id')]);
+        $query = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')
+            ->from(Topic::tableName())
+            ->leftJoin(Node::tableName(), 'node.id = topic.node_id')
+            ->leftJoin(User::tableName(), 'user.id = topic.user_id')
+            ->where(['in', 'topic.user_id', Follow::User()]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()
@@ -317,13 +322,19 @@ class AccountController extends Controller
 
     public function actionNode()
     {
-        $this->title = '我收藏的节点'.' - '.Yii::$app->name;
+        $this->title = '收藏的节点的建议'.' - '.Yii::$app->name;
         $this->description = '';
 
         if (Yii::$app->user->isGuest) {
             return $this->redirect('/account/login?next=/account/node');
         }
-        $query = Topic::find()->where(['in', 'node_id', ArrayHelper::map(Follow::findAll(['user_id' => Yii::$app->user->id, 'type' => 2]), 'follow_id', 'follow_id')]);
+
+        $query = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')
+            ->from(Topic::tableName())
+            ->leftJoin(Node::tableName(), 'node.id = topic.node_id')
+            ->leftJoin(User::tableName(), 'user.id = topic.user_id')
+            ->where(['in', 'node.id', Follow::Node()]);
+
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()
@@ -334,13 +345,17 @@ class AccountController extends Controller
 
     public function actionTopic()
     {
-        $this->title = '我关注的主题'.' - '.Yii::$app->name;
+        $this->title = '关注的建议'.' - '.Yii::$app->name;
         $this->description = '';
 
         if (Yii::$app->user->isGuest) {
             return $this->redirect('/account/login?next=/account/topic');
         }
-        $query = Topic::find()->where(['in', 'id', ArrayHelper::map(Follow::findAll(['user_id' => Yii::$app->user->id, 'type' => 3]), 'follow_id', 'follow_id')]);
+        $query = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')
+            ->from(Topic::tableName())
+            ->leftJoin(Node::tableName(), 'node.id = topic.node_id')
+            ->leftJoin(User::tableName(), 'user.id = topic.user_id')
+            ->where(['in', 'topic.id', Follow::Topic()]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()

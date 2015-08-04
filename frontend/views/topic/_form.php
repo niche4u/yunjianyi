@@ -18,7 +18,7 @@ use kartik\select2\Select2;
                 <?php $form = ActiveForm::begin(['id' => 'create-form']); ?>
                 <?= $form->field($model, 'title') ?>
                 <?= $form->field($model, 'node_id')->widget(Select2::classname(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\common\models\Node::find()->all(), 'id', 'name'),
+                    'data' => \common\models\Node::AllNode(),
                     'options' => ['placeholder' => '请选择一个节点'],
                     'pluginOptions' => [
                         'allowClear' => true
@@ -26,7 +26,7 @@ use kartik\select2\Select2;
                 ]);?>
                 <?= $form->field($topicContent, 'content')->textarea(['rows' => 16]) ?>
                 <div class="form-group">
-                    <?= Html::submitButton($model->isNewRecord ? '发布主题' : '更新主题', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                    <?= Html::submitButton('提交建议', ['class' => 'btn btn-success']) ?>
                     <?= Html::button('预览正文', ['class' => 'btn btn-primary preview']) ?>
                 </div>
                 <?php ActiveForm::end(); ?>

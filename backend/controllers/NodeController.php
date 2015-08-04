@@ -8,7 +8,6 @@ use Yii;
 use common\models\Node;
 use common\models\NodeSearch;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -16,7 +15,7 @@ use yii\filters\AccessControl;
 /**
  * NodeController implements the CRUD actions for Node model.
  */
-class NodeController extends Controller
+class NodeController extends BackendController
 {
     public $title = '节点管理';
     public $description = '节点管理';
@@ -192,7 +191,7 @@ class NodeController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->edit()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

@@ -5,14 +5,13 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Menu;
 use backend\models\MenuSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * MenuController implements the CRUD actions for Menu model.
  */
-class MenuController extends Controller
+class MenuController extends BackendController
 {
     public $title = '菜单管理';
     public $description = '菜单管理';

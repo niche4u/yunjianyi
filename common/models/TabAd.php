@@ -63,7 +63,8 @@ class TabAd extends \yii\db\ActiveRecord
     //获取Tab广告信息，有缓存就获取缓存
     static function TabAd($tab)
     {
-        if(!$TabAd = Yii::$app->cache->get('TabAd'.$tab))
+        $TabAd = Yii::$app->cache->get('TabAd'.$tab);
+        if(!isset($TabAd))
         {
             $TabModel = Tab::findOne(['enname' => $tab]);
             if(!empty($TabModel->id)) {

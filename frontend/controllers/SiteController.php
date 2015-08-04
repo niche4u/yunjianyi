@@ -2,8 +2,6 @@
 namespace frontend\controllers;
 
 use common\models\Node;
-use common\models\Page;
-use common\models\Search;
 use common\models\Tab;
 use common\models\Topic;
 use common\models\User;
@@ -13,21 +11,14 @@ use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
 use yii\db\Query;
 use yii\helpers\Url;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends FrontendController
 {
-    public $title = '';
-    public $description = '';
-    public $keyword = '';
-    public $bg = null;
-    public $bg_color = null;
-
     /**
      * @inheritdoc
      */
@@ -114,51 +105,69 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->title = Yii::$app->name;
-        $this->description = 'V2SEX，一个很实在的技术宅的专属社区。';
+        $this->description = '云建议，一个收集建议的地方，生活中不便利的事情，某个现有产品不好用，欢迎来云建议提建议。';
 
         $tab = Yii::$app->request->get('tab');
         $sessionTab = Yii::$app->session->get('tab');
         if(Yii::$app->request->get('tab') === null) {
             if(empty($sessionTab)) {
-                Yii::$app->session->set('tab', 'tech');
-                $tab = 'tech';
+                Yii::$app->session->set('tab', 'new');
+                $tab = 'new';
             }
             else {
                 $tab = $sessionTab;
             }
         }
         else {
-            if(Tab::findOne(['enname' => $tab]) !== null) {
+            if(Tab::Info($tab) !== null) {
                 Yii::$app->session->set('tab', $tab);
             }
             else {
-                Yii::$app->session->set('tab', 'tech');
-                $tab = 'tech';
+                Yii::$app->session->set('tab', 'new');
+                $tab = 'new';
             }
         }
 
-        $tabModel = Tab::find()->where(['enname' => $tab])->one();
-        if(!empty($tabModel->bg) && $tabModel->use_bg == 1) $this->bg = $tabModel->bg;
-        if(!empty($tabModel->bg_color)) $this->bg_color = $tabModel->bg_color;
+        $tabModel = Tab::Info($tab);
+        if(!empty($tabModel['bg']) && $tabModel['use_bg'] == 1) $this->bg = $tabModel['bg'];
+        if(!empty($tabModel['bg_color'])) $this->bg_color = $tabModel['bg_color'];
+        $this->canonical = Yii::$app->params['domain'].'?tab='.$tab;
 
         if($tab == 'new') {
-            $topic = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->orderBy(['topic.updated_at' => SORT_DESC])->limit(20)->all();
+            $topic = (new Query())
+                ->select('topic.*, node.enname, node.name, user.username, user.avatar')
+                ->from(Topic::tableName().' topic')
+                ->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')
+                ->leftJoin(User::tableName().' user', 'user.id = topic.user_id')
+                ->where(['node.is_hidden' => 0])
+                ->orderBy(['topic.updated_at' => SORT_DESC])
+                ->limit(Yii::$app->params['pageSize'])
+                ->all();
         }else {
-            $topic = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->andWhere(['in', 'topic.node_id', Tab::SubNodeId($tab)])->orderBy(['topic.updated_at' => SORT_DESC])->limit(20)->all();
+            $topic = (new Query())
+                ->select('topic.*, node.enname, node.name, user.username, user.avatar')
+                ->from(Topic::tableName())
+                ->leftJoin(Node::tableName(), 'node.id = topic.node_id')
+                ->leftJoin(User::tableName(), 'user.id = topic.user_id')
+                ->where(['in', 'topic.node_id', Tab::SubNodeId($tab)])
+                ->orderBy(['topic.updated_at' => SORT_DESC])
+                ->limit(Yii::$app->params['pageSize'])
+                ->all();
         }
         return $this->render('index', ['topic' => $topic]);
     }
 
     public function actionRecent()
     {
-        $this->title = '最近的主题 - '.Yii::$app->name;
+        $this->title = '最近的建议 - '.Yii::$app->name;
         $this->description = '';
+        $this->canonical = Yii::$app->params['domain'].'recent';
 
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
-            'totalCount' => (new Query())->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->where('node.is_hidden = 0')->count()
+            'totalCount' => (new Query())->from(Topic::tableName().' topic')->count()
         ]);
-        $topic = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->orderBy(['topic.id' => SORT_DESC])->offset($pagination->offset)->limit($pagination->limit)->all();
+        $topic = (new Query())->select('topic.*, node.enname, node.name, user.username, user.avatar')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where(['node.is_hidden' => 0])->orderBy(['topic.id' => SORT_DESC])->offset($pagination->offset)->limit($pagination->limit)->all();
         return $this->render('recent', ['topic' => $topic, 'pagination'=> $pagination]);
     }
 
@@ -172,6 +181,7 @@ class SiteController extends Controller
         $this->title = $keyword.' - 搜索 - '.Yii::$app->name;
         $this->description = '';
         $this->keyword = $keyword;
+        $this->canonical = Yii::$app->params['domain'].'search';
 
         $search = \Yii::$app->xunsearch->getDatabase('search')->getSearch();
         $search->setFuzzy();
@@ -187,16 +197,5 @@ class SiteController extends Controller
         return $this->render('search', ['topic' => $topic, 'pagination'=> $pagination, 'keyword'=> $keyword]);
     }
 
-    public function actionAbout()
-    {
-        $this->title = '关于 - '.Yii::$app->name;
-        $this->description = '';
-
-        if (($model = Page::findOne(['route' => 'about'])) !== null) {
-            return $this->render('page', ['model' => $model]);
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
 }
+

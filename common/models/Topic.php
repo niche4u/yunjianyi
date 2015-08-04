@@ -54,7 +54,7 @@ class Topic extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => '主题标题',
+            'title' => '标题',
             'user_id' => '作者',
             'node_id' => '节点',
             'need_login' => '需要登录',
@@ -73,7 +73,7 @@ class Topic extends \yii\db\ActiveRecord
      */
     public function getContent()
     {
-        return $this->hasOne(TopicContent::className(), ['topic_id' => 'id']);
+        return $this->hasOne(TopicContent::className(), ['topic_id' => 'id'])->where(['is_append' => 0]);
     }
 
     /**
@@ -127,6 +127,9 @@ class Topic extends \yii\db\ActiveRecord
         if ($this->validate()) {
             if($this->save())
             {
+                Yii::$app->cache->delete('TopicCount');
+                Yii::$app->cache->delete('Ranking');
+                Yii::$app->cache->delete('HotNode15');
                 $topicContent = new TopicContent();
                 if ($topicContent->load(Yii::$app->request->post())) {
 
@@ -171,25 +174,35 @@ class Topic extends \yii\db\ActiveRecord
     }
 
     /**
-     * 热门主题
-     * @param int $num 获取几条热门主题
+     * 热门建议
+     * @param int $num 获取几条热门建议
      * @return array|\yii\db\ActiveRecord[]
      */
     static function HotTopic($num = 8)
     {
-        return $topic = (new Query())->select('topic.*, user.username, user.avatar')->from(Topic::tableName().' topic')->leftJoin(Node::tableName().' node', 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where('node.is_hidden = 0')->andWhere(['between','topic.created',strtotime(date('Y-m-d H:i',time())) - 86400, strtotime(date('Y-m-d H:i',time()))])->orderBy(['topic.reply' => SORT_DESC])->limit($num)->all();
+        $HotTopic = Yii::$app->cache->get('HotTopic'.$num);
+        if(!isset($HotTopic)) {
+            $HotTopic = (new Query())->select('topic.*, user.username, user.avatar')->from(Topic::tableName() . ' topic')->leftJoin(User::tableName() . ' user', 'user.id = topic.user_id')->leftJoin(Node::tableName(), 'topic.node_id = node.id')->where(['node.is_hidden' => 0])->andWhere('topic.reply > 0')->andWhere(['between', 'topic.created', strtotime(date('Y-m-d H:i', time())) - 86400, strtotime(date('Y-m-d H:i', time()))])->orderBy(['topic.reply' => SORT_DESC])->limit($num)->all();
+            Yii::$app->cache->set('HotTopic'.$num, $HotTopic, 86400);
+        }
+        return $HotTopic;
     }
 
     /**
-     * 主题统计
+     * 建议统计
      * @return array|\yii\db\ActiveRecord[]
      */
-    static function TopicStat()
+    static function TopicCount()
     {
-        return Topic::find()->count();
+        if(!$TopicCount = Yii::$app->cache->get('TopicCount'))
+        {
+            $TopicCount = Topic::find()->leftJoin(Node::tableName(), 'topic.node_id = node.id')->where(['node.is_hidden' => 0])->count();
+            Yii::$app->cache->set('TopicCount', $TopicCount, 86400);
+        }
+        return $TopicCount;
     }
 
-    //获取主题信息，有缓存就获取缓存
+    //获取建议信息，有缓存就获取缓存
     static function Info($id)
     {
         if(!$topicInfo = Yii::$app->cache->get('topic'.$id))
@@ -198,6 +211,18 @@ class Topic extends \yii\db\ActiveRecord
             Yii::$app->cache->set('topic'.$id, $topicInfo, 0);
         }
         return $topicInfo;
+    }
+
+
+    //贡献排行榜，有缓存就获取缓存
+    static function Ranking()
+    {
+        if(!$Ranking = Yii::$app->cache->get('Ranking'))
+        {
+            $Ranking = (new Query())->select('count(topic.id) topic_count, user.username, user.avatar')->from(Topic::tableName().' topic')->leftJoin(Node::tableName(), 'node.id = topic.node_id')->leftJoin(User::tableName().' user', 'user.id = topic.user_id')->where(['node.is_hidden' => 0])->groupBy(['topic.user_id'])->orderBy(['topic_count' => SORT_DESC])->limit(10)->all();
+            Yii::$app->cache->set('Ranking', $Ranking, 86400);
+        }
+        return $Ranking;
     }
 
     /**

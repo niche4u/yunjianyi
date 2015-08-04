@@ -37,8 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         </div>
                         <?= $form->field($model, 'email')->textInput(['placeholder' => '邮箱', 'maxlength' => 255]) ?>
-                        <?= $form->field($model, 'homepage')->textInput(['maxlength' => 100]) ?>
-                        <?= $form->field($model, 'area')->textInput(['maxlength' => 30]) ?>
                         <?= $form->field($model, 'desc')->textarea(['rows' => 5, 'maxlength' => 100]) ?>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-9">
@@ -52,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </section>
 
         <section class="mt20" id="avatar">
-            <div class="block-header">设置头像</div>
+            <div class="block-header"><small>设置头像</small></div>
             <div class="block-content">
                 <?php if(Yii::$app->session['avatar'] === 1) echo \frontend\widgets\Alert::widget() ?>
                 <div class="row">
@@ -91,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </section>
 
         <section class="mt20" id="password">
-            <div class="block-header">修改密码</div>
+            <div class="block-header"><small>修改密码</small></div>
             <div class="block-content">
                 <?php if(Yii::$app->session['password'] === 1) echo \frontend\widgets\Alert::widget() ?>
                 <div class="row">

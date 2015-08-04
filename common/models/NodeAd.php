@@ -61,7 +61,8 @@ class NodeAd extends \yii\db\ActiveRecord
     //获取节点广告信息，有缓存就获取缓存
     static function NodeAd($node)
     {
-        if(!$NodeAd = Yii::$app->cache->get('NodeAd'.$node))
+        $NodeAd = Yii::$app->cache->get('NodeAd'.$node);
+        if(!isset($NodeAd))
         {
             $NodeAd = NodeAd::find()->where(['node_id' => $node])->asArray()->all();
             Yii::$app->cache->set('NodeAd'.$node, $NodeAd, 0);

@@ -5,7 +5,6 @@ namespace backend\controllers;
 use Yii;
 use common\models\Tab;
 use common\models\TabSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -13,7 +12,7 @@ use yii\filters\AccessControl;
 /**
  * TabController implements the CRUD actions for Tab model.
  */
-class TabController extends Controller
+class TabController extends BackendController
 {
     public $title = 'TAB管理';
     public $description = 'TAB管理';

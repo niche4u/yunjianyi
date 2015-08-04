@@ -1,7 +1,5 @@
 <?php
 
-use yii\helpers\Markdown;
-
 $TabAd = \common\models\TabAd::TabAd(Yii::$app->session->get('tab'));
 
 ?>
@@ -9,7 +7,7 @@ $TabAd = \common\models\TabAd::TabAd(Yii::$app->session->get('tab'));
 <section>
     <div class="block-content markdown-content">
         <?php foreach ($TabAd as $ad):?>
-        <?= $ad['content']?>
+            <?= $ad['content']?>
         <?php endforeach?>
     </div>
 </section>

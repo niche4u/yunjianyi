@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 
-$this->title = 'V2SEX后台首页';
+$this->title = '云建议后台首页';
 ?>
 <div class="site-index">
 
@@ -25,7 +25,7 @@ $this->title = 'V2SEX后台首页';
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3><?= $model['topicToday']?></h3>
-                        <p>今天发布主题</p>
+                        <p>今天发布建议</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
@@ -64,7 +64,7 @@ $this->title = 'V2SEX后台首页';
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3><?= $model['topic7day']?></h3>
-                        <p>7天发布主题</p>
+                        <p>7天发布建议</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
@@ -103,7 +103,7 @@ $this->title = 'V2SEX后台首页';
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3><?= $model['topic30day']?></h3>
-                        <p>30天发布主题</p>
+                        <p>30天发布建议</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>

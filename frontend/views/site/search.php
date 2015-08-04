@@ -73,7 +73,7 @@ $agent = \common\components\Helper::agent();
             <?= $this->render('@frontend/views/weight/user')?>
             <?= $this->render('@frontend/views/weight/hot-topic')?>
             <?= $this->render('@frontend/views/weight/hot-node')?>
-            <?= $this->render('@frontend/views/weight/stat')?>
+            <?= $this->render('@frontend/views/weight/count')?>
         </div>
 
     </div>
