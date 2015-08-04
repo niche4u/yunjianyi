@@ -23,6 +23,7 @@ return array(
     'kartik\\grid\\' => array($vendorDir . '/kartik-v/yii2-grid'),
     'kartik\\base\\' => array($vendorDir . '/kartik-v/yii2-krajee-base'),
     'hightman\\xunsearch\\' => array($vendorDir . '/hightman/xunsearch/wrapper/yii2-ext'),
+    'dosamigos\\qrcode\\' => array($vendorDir . '/2amigos/yii2-qrcode-helper/src'),
     'dmstr\\' => array($vendorDir . '/dmstr/yii2-adminlte-asset'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),

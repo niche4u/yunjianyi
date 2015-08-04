@@ -4,8 +4,64 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "07f642542e81f45150ee6955b6cbd5eb",
+    "hash": "b925285f00d2965f4fe44e3dc350a621",
     "packages": [
+        {
+            "name": "2amigos/yii2-qrcode-helper",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-qrcode-helper.git",
+                "reference": "827a79d0e498026119c8cdcf724d81be2e0daa5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-qrcode-helper/zipball/827a79d0e498026119c8cdcf724d81be2e0daa5f",
+                "reference": "827a79d0e498026119c8cdcf724d81be2e0daa5f",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\qrcode\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "2amigOS! Consulting Group",
+                    "email": "hola@2amigos.us",
+                    "homepage": "http://2amigos.us",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Create QrCodes based on libqrencode C library.",
+            "keywords": [
+                "2amigos",
+                "extension",
+                "helper",
+                "qrcode",
+                "yii",
+                "yii 2",
+                "yii2"
+            ],
+            "time": "2015-03-16 21:26:14"
+        },
         {
             "name": "almasaeed2010/adminlte",
             "version": "v2.1.2",
@@ -849,12 +905,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xjflyttp/yii2-oauth.git",
-                "reference": "5fb6e6f8bc7db990425b23f6c451e57ef765ccd8"
+                "reference": "76e899225d29896052704d37cf9200b8b05666aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xjflyttp/yii2-oauth/zipball/5fb6e6f8bc7db990425b23f6c451e57ef765ccd8",
-                "reference": "5fb6e6f8bc7db990425b23f6c451e57ef765ccd8",
+                "url": "https://api.github.com/repos/xjflyttp/yii2-oauth/zipball/76e899225d29896052704d37cf9200b8b05666aa",
+                "reference": "76e899225d29896052704d37cf9200b8b05666aa",
                 "shasum": ""
             },
             "require": {
@@ -878,7 +934,7 @@
                 }
             ],
             "description": "yii2-oauth",
-            "time": "2015-04-21 07:07:18"
+            "time": "2015-07-16 04:20:44"
         },
         {
             "name": "xj/yii2-sitemap",

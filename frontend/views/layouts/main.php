@@ -104,6 +104,7 @@ $this->registerJs($sendJs, \yii\web\View::POS_READY);
 	    </p>
         <p class="pull-right">
 	        &copy; <?= Yii::$app->name?> <?= date('Y') ?>&nbsp;•&nbsp; <?= floor(Yii::getLogger()->getElapsedTime() * 1000).' ms';?>
+&nbsp;•&nbsp; <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255649559'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/stat.php%3Fid%3D1255649559' type='text/javascript'%3E%3C/script%3E"));</script>
 	    </p>
         </div>
     </footer>

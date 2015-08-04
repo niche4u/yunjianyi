@@ -27,7 +27,8 @@
         "xj/yii2-oauth": "dev-master",
         "yiisoft/yii2-authclient": "~2.0.0",
 	"rmrevin/yii2-fontawesome": "^2.10",
-	"xj/yii2-sitemap": "*"
+	"xj/yii2-sitemap": "*",
+        "2amigos/yii2-qrcode-helper": "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
