@@ -105,7 +105,7 @@ class SiteController extends FrontendController
     public function actionIndex()
     {
         $this->title = Yii::$app->name;
-        $this->description = '云建议，一个收集建议的地方，生活中不便利的事情，某个现有产品不好用，欢迎来云建议提建议。';
+        $this->description = '云建议，一个收集建议的地方。';
 
         $tab = Yii::$app->request->get('tab');
         $sessionTab = Yii::$app->session->get('tab');
