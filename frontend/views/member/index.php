@@ -28,7 +28,7 @@
                             <h2>
                             <?= $model->username?>
                             </h2>
-                            <small><?= Yii::$app->name?> 第 <?= $model->id?> 号会员，加入为 <?= date('Y-m-d H:i:s', $model->created_at)?>
+                            <small><?= Yii::$app->name?> 第 <?= $model->id?> 号会员，加入为 <?= Yii::$app->formatter->asDatetime($model->created_at);?>
                                 <?php if(!empty($model->area)):?>，所在地 <?= $model->area?><?php endif?>
                             </small>
 
